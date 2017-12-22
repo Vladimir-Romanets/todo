@@ -1,7 +1,7 @@
-import * as types from '../const/ActionTypes';
+import * as authorization from './authorization';
 
-export const test = () => {
-    return {
-        type: types.TEST 
-    }
+const actions = {
+    ...authorization
 };
+
+export default actions;

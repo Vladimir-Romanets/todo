@@ -1,1 +1,2 @@
 export const TEST = 'TEST';
+export const FETCH_AUTHORIZATION_DATA = 'FETCH_AUTHORIZATION_DATA';
