@@ -1,0 +1,17 @@
+.dashboard__col{
+    padding: 10px 20px;
+    list-style: none;
+    flex-basis: 33.33%;
+    box-sizing: border-box;
+}
+.col__title{
+    margin: 0 auto 20px;
+    text-align: center;
+    font-weight: 800;
+    line-height: 2rem;
+}
+.task{
+    margin: 20px auto;
+    padding: 20px 5px;
+    border: 1px solid #000
+}

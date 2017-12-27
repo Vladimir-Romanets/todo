@@ -1,0 +1,21 @@
+input,
+textarea{
+    outline: none;
+    box-sizing: border-box;
+    height: auto;
+}
+.task__row + .task__row{
+    margin: 10px 0 0;
+}
+.task__row [name="title"],
+.task__row [name="description"]{
+    padding: 5px;
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+.task__row [name="description"]{
+    min-height: 5rem;
+    resize: none;
+}

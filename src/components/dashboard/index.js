@@ -1,5 +1,6 @@
 import React from 'react';
 import TaskList from '../task_list';
+import './style.css';
 
 export default function DashBoard({ tasksList, ...rest }){
     const {

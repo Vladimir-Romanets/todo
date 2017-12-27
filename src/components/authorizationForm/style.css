@@ -1,0 +1,37 @@
+.auth-form{
+    padding: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #000;
+}
+.auth-form__row{
+    padding: 15px 5px;
+    position: relative;
+    text-align: center;
+}
+.auth-form__row input,
+.auth-form__row label,
+.auth-form__row button{
+    font-size: 1rem;
+}
+.auth-form__row label{
+    position: absolute;
+    top: 19px;
+    left: 12px;
+
+    transition: all .25s linear;
+}
+.auth-form__row input{
+    padding: 3px 5px;
+    border: 1px solid #454554;
+    width: 210px;
+    text-align: left;
+}
+.auth-form__row input:focus + label,
+.auth-form__row input:not(:invalid) + label{
+    top: -2px;
+    left: 6px;
+    font-size: .8rem;
+}

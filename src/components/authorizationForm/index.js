@@ -1,33 +1,39 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
+import './style.css';
+
 let AuthorizationForm = ( props ) => {
     const { handleSubmit } = props;
     return (
         <form onSubmit={ handleSubmit } className="auth-form">
 
-            <div>
-                <label htmlFor="login">Login</label>
+            <div className="auth-form__row">
                 <Field
                     component="input"
                     type="text"
                     name="login"
                     id="login"
+                    required
                 />
+                <label htmlFor="login">Login</label>
             </div>
 
-            <div>
-                <label htmlFor="password">Password</label>
+            <div className="auth-form__row">
                 <Field
                     component="input"
                     type="password"
                     name="password"
                     id="password"
+                    required
                 />
+                <label htmlFor="password">Password</label>
             </div>
-            <div>
+
+            <div className="auth-form__row">
                 <button type="submit">Sign in</button>
             </div>
+
         </form>
     )
 };

@@ -21,7 +21,10 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
             },
             {
                 test: /\.woff2?$|\.ttf$|\.eot$|\.svg$|\.png|\.jpe?g|\.gif$/,
@@ -35,6 +38,6 @@ module.exports = {
             filename: '../index.html',
             inject: 'body'
         }),
-        new ExtractTextPlugin('css/styles.css')
+        new ExtractTextPlugin('../css/styles.css')
     ]
 };
