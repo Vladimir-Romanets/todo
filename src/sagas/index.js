@@ -1,10 +1,8 @@
-import { takeEvery } from 'redux-saga/effects';
-import * as types from "../const/ActionTypes";
-import fetchAuthData from './fetchAuthData';
+import { fork } from 'redux-saga/effects';
+import auth from './auth/index';
+import taskList from './tasks-list';
 
-
-function* sagas() {
-	yield takeEvery(types.FETCH_AUTHORIZATION_DATA, fetchAuthData);
+export default function* sagas() {
+	yield fork( auth );
+	yield fork( taskList );
 };
-
-export default sagas;

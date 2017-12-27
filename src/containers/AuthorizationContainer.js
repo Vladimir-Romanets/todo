@@ -9,12 +9,14 @@ class AuthorizationContainer extends Component {
 	}
 
 	render(){
-		return <AuthorizationForm onSubmit={ this.submit } />
+		return (
+			!this.props.auth && <AuthorizationForm onSubmit={ this.submit } />
+		)
 	}
 }
 
 const mapStateToProps = ( state ) => {
-	return state
+	return { ...state.reducerAuthorization }
 };
 
 const mapDispatchToProps = ( dispatch ) => {
