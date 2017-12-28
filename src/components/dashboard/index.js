@@ -4,24 +4,36 @@ import './style.css';
 
 export default function DashBoard({ tasksList, ...rest }){
     const {
-        newTasks = [],
-        inprocessTasks = [],
-        doneTasks = []
+        newtasks = [],
+        inprogress = [],
+        completed = []
     } = tasksList;
 
     return (
         <div className="dashboard">
             <TaskList
-                list={ newTasks }
+                list={ newtasks }
                 title="New tasks"
+                currentState="newtasks"
+                fetchStatusChange={ rest.fetchStatusChange }
+                fetchSaveTaskData={ rest.fetchSaveTaskData }
+                addTask={ rest.addTask }
             />
             <TaskList
-                list={ inprocessTasks }
+                list={ inprogress }
                 title="Tasks in the process"
+                currentState="inprogress"
+                fetchStatusChange={ rest.fetchStatusChange }
+                fetchSaveTaskData={ rest.fetchSaveTaskData }
+                addTask={ rest.addTask }
             />
             <TaskList
-                list={ doneTasks }
-                title="Done tasks"
+                list={ completed }
+                title="Complited tasks"
+                currentState="completed"
+                fetchStatusChange={ rest.fetchStatusChange }
+                fetchSaveTaskData={ rest.fetchSaveTaskData }
+                addTask={ rest.addTask }
             />
         </div>
     )

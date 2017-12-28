@@ -995,7 +995,7 @@ var cloneableGenerator = function cloneableGenerator(generatorFunc) {
 
 
 var bind = __webpack_require__(243);
-var isBuffer = __webpack_require__(673);
+var isBuffer = __webpack_require__(677);
 
 /*global toString:true*/
 
@@ -2963,6 +2963,11 @@ var FETCH_AUTHORIZATION_DATA = exports.FETCH_AUTHORIZATION_DATA = 'FETCH_AUTHORI
 var AUTH_RESPONSE = exports.AUTH_RESPONSE = 'AUTH_RESPONSE';
 var FETCH_GET_TASKS_LIST = exports.FETCH_GET_TASKS_LIST = 'FETCH_GET_TASKS_LIST';
 var SET_TASKS_LIST = exports.SET_TASKS_LIST = 'SET_TASKS_LIST';
+var FETCH_STATUS_CHANGE = exports.FETCH_STATUS_CHANGE = 'FETCH_STATUS_CHANGE';
+var STATUS_CHANGED_SUCCESSFUL = exports.STATUS_CHANGED_SUCCESSFUL = 'STATUS_CHANGED_SUCCESSFUL';
+var FETCH_SAVE_TASK_DATA = exports.FETCH_SAVE_TASK_DATA = 'FETCH_SAVE_TASK_DATA';
+var SAVE_TASK_DATA_SUCCESSFUL = exports.SAVE_TASK_DATA_SUCCESSFUL = 'SAVE_TASK_DATA_SUCCESSFUL';
+var ADD_TASK = exports.ADD_TASK = 'ADD_TASK';
 
 /***/ }),
 /* 63 */
@@ -6490,7 +6495,7 @@ function fsmIterator(fsm, q0) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(23);
-var normalizeHeaderName = __webpack_require__(675);
+var normalizeHeaderName = __webpack_require__(679);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -8714,7 +8719,7 @@ Object.defineProperty(exports, 'AuthorizationForm', {
   }
 });
 
-var _dashboard = __webpack_require__(654);
+var _dashboard = __webpack_require__(655);
 
 Object.defineProperty(exports, 'DashBoard', {
   enumerable: true,
@@ -8732,7 +8737,7 @@ Object.defineProperty(exports, 'TaskList', {
   }
 });
 
-__webpack_require__(700);
+__webpack_require__(660);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10128,17 +10133,20 @@ var silenceEvent = function silenceEvent(event) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 exports.default = TaskList;
 
 var _react = __webpack_require__(8);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _task_form = __webpack_require__(655);
+var _task_form = __webpack_require__(656);
 
 var _task_form2 = _interopRequireDefault(_task_form);
 
-__webpack_require__(656);
+__webpack_require__(658);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10147,17 +10155,26 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 function TaskList(_ref) {
     var title = _ref.title,
         list = _ref.list,
-        rest = _objectWithoutProperties(_ref, ['title', 'list']);
+        currentState = _ref.currentState,
+        rest = _objectWithoutProperties(_ref, ['title', 'list', 'currentState']);
 
     var Li = list.map(function (el) {
         return _react2.default.createElement(
             'li',
             { className: 'task', key: el.id },
             _react2.default.createElement(_task_form2.default, {
-                form: 'task_' + el.id,
-                initialValues: el
+                form: '' + el.id,
+                initialValues: _extends({}, el, { currentState: currentState }),
+                fetchStatusChange: rest.fetchStatusChange,
+                onSubmit: function onSubmit(data) {
+                    return rest.fetchSaveTaskData(data);
+                }
             })
         );
+    });
+
+    var addIsActive = !list.some(function (el) {
+        return el.id === currentState;
     });
 
     return _react2.default.createElement(
@@ -10167,6 +10184,18 @@ function TaskList(_ref) {
             'li',
             { className: 'col__title' },
             title || 'Сolumn name'
+        ),
+        _react2.default.createElement(
+            'li',
+            { className: 'col__add-task',
+                title: 'Add task',
+                onClick: addIsActive ? function (e) {
+                    return rest.addTask(currentState);
+                } : null },
+            _react2.default.createElement('img', { src: './images/add.svg',
+                alt: 'Add task',
+                className: 'add-task__ico'
+            })
         ),
         list.length ? Li : null
     );
@@ -11093,9 +11122,9 @@ function proc(iterator) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return takeEvery; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return takeLatest; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return throttle; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__takeEvery__ = __webpack_require__(665);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__takeLatest__ = __webpack_require__(666);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__throttle__ = __webpack_require__(667);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__takeEvery__ = __webpack_require__(669);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__takeLatest__ = __webpack_require__(670);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__throttle__ = __webpack_require__(671);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils__ = __webpack_require__(22);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__takeEvery__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_1__takeLatest__["a"]; });
@@ -11120,7 +11149,7 @@ var throttle = /*#__PURE__*/Object(__WEBPACK_IMPORTED_MODULE_3__utils__["n" /* d
 /* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(672);
+module.exports = __webpack_require__(676);
 
 /***/ }),
 /* 243 */
@@ -11148,12 +11177,12 @@ module.exports = function bind(fn, thisArg) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(23);
-var settle = __webpack_require__(676);
-var buildURL = __webpack_require__(678);
-var parseHeaders = __webpack_require__(679);
-var isURLSameOrigin = __webpack_require__(680);
+var settle = __webpack_require__(680);
+var buildURL = __webpack_require__(682);
+var parseHeaders = __webpack_require__(683);
+var isURLSameOrigin = __webpack_require__(684);
 var createError = __webpack_require__(245);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(681);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(685);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -11250,7 +11279,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(682);
+      var cookies = __webpack_require__(686);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -11335,7 +11364,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(677);
+var enhanceError = __webpack_require__(681);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -16722,7 +16751,7 @@ var _reactRedux = __webpack_require__(33);
 
 var _App = __webpack_require__(483);
 
-var _store = __webpack_require__(658);
+var _store = __webpack_require__(662);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35708,7 +35737,7 @@ Object.defineProperty(exports, 'AuthorizationContainer', {
   }
 });
 
-var _DashboardContainer = __webpack_require__(657);
+var _DashboardContainer = __webpack_require__(661);
 
 Object.defineProperty(exports, 'DashboardContainer', {
   enumerable: true,
@@ -35839,7 +35868,7 @@ var authResponse = exports.authResponse = function authResponse(authData) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setTasksList = exports.fetchGetTaskList = undefined;
+exports.addTask = exports.saveTaskDataSuccessful = exports.fetchSaveTaskData = exports.statusChangedSuccessful = exports.fetchStatusChange = exports.setTasksList = exports.fetchGetTaskList = undefined;
 
 var _ActionTypes = __webpack_require__(62);
 
@@ -35860,6 +35889,42 @@ var setTasksList = exports.setTasksList = function setTasksList(tasksList) {
     };
 };
 
+var fetchStatusChange = exports.fetchStatusChange = function fetchStatusChange(options) {
+    return {
+        type: types.FETCH_STATUS_CHANGE,
+        options: options
+    };
+};
+
+var statusChangedSuccessful = exports.statusChangedSuccessful = function statusChangedSuccessful(options) {
+    return {
+        type: types.STATUS_CHANGED_SUCCESSFUL,
+        options: options
+    };
+};
+
+var fetchSaveTaskData = exports.fetchSaveTaskData = function fetchSaveTaskData(data) {
+    return {
+        type: types.FETCH_SAVE_TASK_DATA,
+        data: data
+    };
+};
+
+var saveTaskDataSuccessful = exports.saveTaskDataSuccessful = function saveTaskDataSuccessful(data, status) {
+    return {
+        type: types.SAVE_TASK_DATA_SUCCESSFUL,
+        data: data,
+        status: status
+    };
+};
+
+var addTask = exports.addTask = function addTask(status) {
+    return {
+        type: types.ADD_TASK,
+        status: status
+    };
+};
+
 /***/ }),
 /* 488 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -35877,7 +35942,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reduxForm = __webpack_require__(134);
 
-__webpack_require__(702);
+__webpack_require__(654);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44095,6 +44160,12 @@ var createValues = function createValues(_ref) {
 
 /***/ }),
 /* 654 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 655 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44113,7 +44184,7 @@ var _task_list = __webpack_require__(237);
 
 var _task_list2 = _interopRequireDefault(_task_list);
 
-__webpack_require__(696);
+__webpack_require__(659);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44123,34 +44194,46 @@ function DashBoard(_ref) {
     var tasksList = _ref.tasksList,
         rest = _objectWithoutProperties(_ref, ['tasksList']);
 
-    var _tasksList$newTasks = tasksList.newTasks,
-        newTasks = _tasksList$newTasks === undefined ? [] : _tasksList$newTasks,
-        _tasksList$inprocessT = tasksList.inprocessTasks,
-        inprocessTasks = _tasksList$inprocessT === undefined ? [] : _tasksList$inprocessT,
-        _tasksList$doneTasks = tasksList.doneTasks,
-        doneTasks = _tasksList$doneTasks === undefined ? [] : _tasksList$doneTasks;
+    var _tasksList$newtasks = tasksList.newtasks,
+        newtasks = _tasksList$newtasks === undefined ? [] : _tasksList$newtasks,
+        _tasksList$inprogress = tasksList.inprogress,
+        inprogress = _tasksList$inprogress === undefined ? [] : _tasksList$inprogress,
+        _tasksList$completed = tasksList.completed,
+        completed = _tasksList$completed === undefined ? [] : _tasksList$completed;
 
 
     return _react2.default.createElement(
         'div',
         { className: 'dashboard' },
         _react2.default.createElement(_task_list2.default, {
-            list: newTasks,
-            title: 'New tasks'
+            list: newtasks,
+            title: 'New tasks',
+            currentState: 'newtasks',
+            fetchStatusChange: rest.fetchStatusChange,
+            fetchSaveTaskData: rest.fetchSaveTaskData,
+            addTask: rest.addTask
         }),
         _react2.default.createElement(_task_list2.default, {
-            list: inprocessTasks,
-            title: 'Tasks in the process'
+            list: inprogress,
+            title: 'Tasks in the process',
+            currentState: 'inprogress',
+            fetchStatusChange: rest.fetchStatusChange,
+            fetchSaveTaskData: rest.fetchSaveTaskData,
+            addTask: rest.addTask
         }),
         _react2.default.createElement(_task_list2.default, {
-            list: doneTasks,
-            title: 'Done tasks'
+            list: completed,
+            title: 'Complited tasks',
+            currentState: 'completed',
+            fetchStatusChange: rest.fetchStatusChange,
+            fetchSaveTaskData: rest.fetchSaveTaskData,
+            addTask: rest.addTask
         })
     );
 };
 
 /***/ }),
-/* 655 */
+/* 656 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44168,16 +44251,51 @@ var _reduxForm = __webpack_require__(134);
 
 var _reactRedux = __webpack_require__(33);
 
-__webpack_require__(698);
+__webpack_require__(657);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TaskForm = function TaskForm(_ref) {
-    var handleSubmit = _ref.handleSubmit;
+var TaskForm = function TaskForm(props) {
+    var option = ['newtasks', 'inprogress', 'completed'].map(function (el) {
+        return _react2.default.createElement(
+            'option',
+            {
+                key: el,
+                value: el },
+            el
+        );
+    });
 
     return _react2.default.createElement(
         'form',
-        { onSubmit: handleSubmit },
+        { onSubmit: props.handleSubmit },
+        _react2.default.createElement(
+            'div',
+            { className: 'task__row mng' },
+            _react2.default.createElement(
+                'i',
+                { className: 'mng__item', onClick: props.handleSubmit },
+                _react2.default.createElement('img', { src: './images/save.svg', alt: 'save', title: 'Save' })
+            )
+        ),
+        _react2.default.createElement(
+            'div',
+            { className: 'task__row' },
+            _react2.default.createElement(
+                _reduxForm.Field,
+                {
+                    component: 'select',
+                    name: 'currentState',
+                    onChange: function onChange(e, newState, prevState) {
+                        return props.fetchStatusChange({
+                            taskID: props.initialValues.id,
+                            newState: newState,
+                            prevState: prevState
+                        });
+                    } },
+                option
+            )
+        ),
         _react2.default.createElement(
             'div',
             { className: 'task__row' },
@@ -44199,17 +44317,36 @@ var TaskForm = function TaskForm(_ref) {
 };
 
 exports.default = (0, _reduxForm.reduxForm)({
-    form: ['text']
+    form: ['text'],
+    enableReinitialize: true
 })(TaskForm);
 
 /***/ }),
-/* 656 */
+/* 657 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 657 */
+/* 658 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 659 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 660 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 661 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44271,14 +44408,22 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	return {
-		//fetchGetTaskList: () => dispatch( actions.fetchGetTaskList() )
+		fetchStatusChange: function fetchStatusChange(options) {
+			return dispatch(_actions2.default.fetchStatusChange(options));
+		},
+		fetchSaveTaskData: function fetchSaveTaskData(data) {
+			return dispatch(_actions2.default.fetchSaveTaskData(data));
+		},
+		addTask: function addTask(state) {
+			return dispatch(_actions2.default.addTask(state));
+		}
 	};
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(DashboardContainer);
 
 /***/ }),
-/* 658 */
+/* 662 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44291,19 +44436,19 @@ exports.store = undefined;
 
 var _redux = __webpack_require__(71);
 
-var _reduxLogger = __webpack_require__(659);
+var _reduxLogger = __webpack_require__(663);
 
 var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-var _index = __webpack_require__(660);
+var _index = __webpack_require__(664);
 
 var _index2 = _interopRequireDefault(_index);
 
-var _reduxSaga = __webpack_require__(663);
+var _reduxSaga = __webpack_require__(667);
 
 var _reduxSaga2 = _interopRequireDefault(_reduxSaga);
 
-var _index3 = __webpack_require__(669);
+var _index3 = __webpack_require__(673);
 
 var _index4 = _interopRequireDefault(_index3);
 
@@ -44325,7 +44470,7 @@ var store = exports.store = (0, _redux.createStore)(_index2.default, (0, _redux.
 sagaMiddleware.run(_index4.default);
 
 /***/ }),
-/* 659 */
+/* 663 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {!function(e,t){ true?t(exports):"function"==typeof define&&define.amd?define(["exports"],t):t(e.reduxLogger=e.reduxLogger||{})}(this,function(e){"use strict";function t(e,t){e.super_=t,e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}})}function r(e,t){Object.defineProperty(this,"kind",{value:e,enumerable:!0}),t&&t.length&&Object.defineProperty(this,"path",{value:t,enumerable:!0})}function n(e,t,r){n.super_.call(this,"E",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0}),Object.defineProperty(this,"rhs",{value:r,enumerable:!0})}function o(e,t){o.super_.call(this,"N",e),Object.defineProperty(this,"rhs",{value:t,enumerable:!0})}function i(e,t){i.super_.call(this,"D",e),Object.defineProperty(this,"lhs",{value:t,enumerable:!0})}function a(e,t,r){a.super_.call(this,"A",e),Object.defineProperty(this,"index",{value:t,enumerable:!0}),Object.defineProperty(this,"item",{value:r,enumerable:!0})}function f(e,t,r){var n=e.slice((r||t)+1||e.length);return e.length=t<0?e.length+t:t,e.push.apply(e,n),e}function u(e){var t="undefined"==typeof e?"undefined":N(e);return"object"!==t?t:e===Math?"math":null===e?"null":Array.isArray(e)?"array":"[object Date]"===Object.prototype.toString.call(e)?"date":"function"==typeof e.toString&&/^\/.*\//.test(e.toString())?"regexp":"object"}function l(e,t,r,c,s,d,p){s=s||[],p=p||[];var g=s.slice(0);if("undefined"!=typeof d){if(c){if("function"==typeof c&&c(g,d))return;if("object"===("undefined"==typeof c?"undefined":N(c))){if(c.prefilter&&c.prefilter(g,d))return;if(c.normalize){var h=c.normalize(g,d,e,t);h&&(e=h[0],t=h[1])}}}g.push(d)}"regexp"===u(e)&&"regexp"===u(t)&&(e=e.toString(),t=t.toString());var y="undefined"==typeof e?"undefined":N(e),v="undefined"==typeof t?"undefined":N(t),b="undefined"!==y||p&&p[p.length-1].lhs&&p[p.length-1].lhs.hasOwnProperty(d),m="undefined"!==v||p&&p[p.length-1].rhs&&p[p.length-1].rhs.hasOwnProperty(d);if(!b&&m)r(new o(g,t));else if(!m&&b)r(new i(g,e));else if(u(e)!==u(t))r(new n(g,e,t));else if("date"===u(e)&&e-t!==0)r(new n(g,e,t));else if("object"===y&&null!==e&&null!==t)if(p.filter(function(t){return t.lhs===e}).length)e!==t&&r(new n(g,e,t));else{if(p.push({lhs:e,rhs:t}),Array.isArray(e)){var w;e.length;for(w=0;w<e.length;w++)w>=t.length?r(new a(g,w,new i(void 0,e[w]))):l(e[w],t[w],r,c,g,w,p);for(;w<t.length;)r(new a(g,w,new o(void 0,t[w++])))}else{var x=Object.keys(e),S=Object.keys(t);x.forEach(function(n,o){var i=S.indexOf(n);i>=0?(l(e[n],t[n],r,c,g,n,p),S=f(S,i)):l(e[n],void 0,r,c,g,n,p)}),S.forEach(function(e){l(void 0,t[e],r,c,g,e,p)})}p.length=p.length-1}else e!==t&&("number"===y&&isNaN(e)&&isNaN(t)||r(new n(g,e,t)))}function c(e,t,r,n){return n=n||[],l(e,t,function(e){e&&n.push(e)},r),n.length?n:void 0}function s(e,t,r){if(r.path&&r.path.length){var n,o=e[t],i=r.path.length-1;for(n=0;n<i;n++)o=o[r.path[n]];switch(r.kind){case"A":s(o[r.path[n]],r.index,r.item);break;case"D":delete o[r.path[n]];break;case"E":case"N":o[r.path[n]]=r.rhs}}else switch(r.kind){case"A":s(e[t],r.index,r.item);break;case"D":e=f(e,t);break;case"E":case"N":e[t]=r.rhs}return e}function d(e,t,r){if(e&&t&&r&&r.kind){for(var n=e,o=-1,i=r.path?r.path.length-1:0;++o<i;)"undefined"==typeof n[r.path[o]]&&(n[r.path[o]]="number"==typeof r.path[o]?[]:{}),n=n[r.path[o]];switch(r.kind){case"A":s(r.path?n[r.path[o]]:n,r.index,r.item);break;case"D":delete n[r.path[o]];break;case"E":case"N":n[r.path[o]]=r.rhs}}}function p(e,t,r){if(r.path&&r.path.length){var n,o=e[t],i=r.path.length-1;for(n=0;n<i;n++)o=o[r.path[n]];switch(r.kind){case"A":p(o[r.path[n]],r.index,r.item);break;case"D":o[r.path[n]]=r.lhs;break;case"E":o[r.path[n]]=r.lhs;break;case"N":delete o[r.path[n]]}}else switch(r.kind){case"A":p(e[t],r.index,r.item);break;case"D":e[t]=r.lhs;break;case"E":e[t]=r.lhs;break;case"N":e=f(e,t)}return e}function g(e,t,r){if(e&&t&&r&&r.kind){var n,o,i=e;for(o=r.path.length-1,n=0;n<o;n++)"undefined"==typeof i[r.path[n]]&&(i[r.path[n]]={}),i=i[r.path[n]];switch(r.kind){case"A":p(i[r.path[n]],r.index,r.item);break;case"D":i[r.path[n]]=r.lhs;break;case"E":i[r.path[n]]=r.lhs;break;case"N":delete i[r.path[n]]}}}function h(e,t,r){if(e&&t){var n=function(n){r&&!r(e,t,n)||d(e,t,n)};l(e,t,n)}}function y(e){return"color: "+F[e].color+"; font-weight: bold"}function v(e){var t=e.kind,r=e.path,n=e.lhs,o=e.rhs,i=e.index,a=e.item;switch(t){case"E":return[r.join("."),n,"→",o];case"N":return[r.join("."),o];case"D":return[r.join(".")];case"A":return[r.join(".")+"["+i+"]",a];default:return[]}}function b(e,t,r,n){var o=c(e,t);try{n?r.groupCollapsed("diff"):r.group("diff")}catch(e){r.log("diff")}o?o.forEach(function(e){var t=e.kind,n=v(e);r.log.apply(r,["%c "+F[t].text,y(t)].concat(P(n)))}):r.log("—— no diff ——");try{r.groupEnd()}catch(e){r.log("—— diff end —— ")}}function m(e,t,r,n){switch("undefined"==typeof e?"undefined":N(e)){case"object":return"function"==typeof e[n]?e[n].apply(e,P(r)):e[n];case"function":return e(t);default:return e}}function w(e){var t=e.timestamp,r=e.duration;return function(e,n,o){var i=["action"];return i.push("%c"+String(e.type)),t&&i.push("%c@ "+n),r&&i.push("%c(in "+o.toFixed(2)+" ms)"),i.join(" ")}}function x(e,t){var r=t.logger,n=t.actionTransformer,o=t.titleFormatter,i=void 0===o?w(t):o,a=t.collapsed,f=t.colors,u=t.level,l=t.diff,c="undefined"==typeof t.titleFormatter;e.forEach(function(o,s){var d=o.started,p=o.startedTime,g=o.action,h=o.prevState,y=o.error,v=o.took,w=o.nextState,x=e[s+1];x&&(w=x.prevState,v=x.started-d);var S=n(g),k="function"==typeof a?a(function(){return w},g,o):a,j=D(p),E=f.title?"color: "+f.title(S)+";":"",A=["color: gray; font-weight: lighter;"];A.push(E),t.timestamp&&A.push("color: gray; font-weight: lighter;"),t.duration&&A.push("color: gray; font-weight: lighter;");var O=i(S,j,v);try{k?f.title&&c?r.groupCollapsed.apply(r,["%c "+O].concat(A)):r.groupCollapsed(O):f.title&&c?r.group.apply(r,["%c "+O].concat(A)):r.group(O)}catch(e){r.log(O)}var N=m(u,S,[h],"prevState"),P=m(u,S,[S],"action"),C=m(u,S,[y,h],"error"),F=m(u,S,[w],"nextState");if(N)if(f.prevState){var L="color: "+f.prevState(h)+"; font-weight: bold";r[N]("%c prev state",L,h)}else r[N]("prev state",h);if(P)if(f.action){var T="color: "+f.action(S)+"; font-weight: bold";r[P]("%c action    ",T,S)}else r[P]("action    ",S);if(y&&C)if(f.error){var M="color: "+f.error(y,h)+"; font-weight: bold;";r[C]("%c error     ",M,y)}else r[C]("error     ",y);if(F)if(f.nextState){var _="color: "+f.nextState(w)+"; font-weight: bold";r[F]("%c next state",_,w)}else r[F]("next state",w);l&&b(h,w,r,k);try{r.groupEnd()}catch(e){r.log("—— log end ——")}})}function S(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=Object.assign({},L,e),r=t.logger,n=t.stateTransformer,o=t.errorTransformer,i=t.predicate,a=t.logErrors,f=t.diffPredicate;if("undefined"==typeof r)return function(){return function(e){return function(t){return e(t)}}};if(e.getState&&e.dispatch)return console.error("[redux-logger] redux-logger not installed. Make sure to pass logger instance as middleware:\n// Logger with default options\nimport { logger } from 'redux-logger'\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n// Or you can create your own logger with custom options http://bit.ly/redux-logger-options\nimport createLogger from 'redux-logger'\nconst logger = createLogger({\n  // ...options\n});\nconst store = createStore(\n  reducer,\n  applyMiddleware(logger)\n)\n"),function(){return function(e){return function(t){return e(t)}}};var u=[];return function(e){var r=e.getState;return function(e){return function(l){if("function"==typeof i&&!i(r,l))return e(l);var c={};u.push(c),c.started=O.now(),c.startedTime=new Date,c.prevState=n(r()),c.action=l;var s=void 0;if(a)try{s=e(l)}catch(e){c.error=o(e)}else s=e(l);c.took=O.now()-c.started,c.nextState=n(r());var d=t.diff&&"function"==typeof f?f(r,l):t.diff;if(x(u,Object.assign({},t,{diff:d})),u.length=0,c.error)throw c.error;return s}}}}var k,j,E=function(e,t){return new Array(t+1).join(e)},A=function(e,t){return E("0",t-e.toString().length)+e},D=function(e){return A(e.getHours(),2)+":"+A(e.getMinutes(),2)+":"+A(e.getSeconds(),2)+"."+A(e.getMilliseconds(),3)},O="undefined"!=typeof performance&&null!==performance&&"function"==typeof performance.now?performance:Date,N="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},P=function(e){if(Array.isArray(e)){for(var t=0,r=Array(e.length);t<e.length;t++)r[t]=e[t];return r}return Array.from(e)},C=[];k="object"===("undefined"==typeof global?"undefined":N(global))&&global?global:"undefined"!=typeof window?window:{},j=k.DeepDiff,j&&C.push(function(){"undefined"!=typeof j&&k.DeepDiff===c&&(k.DeepDiff=j,j=void 0)}),t(n,r),t(o,r),t(i,r),t(a,r),Object.defineProperties(c,{diff:{value:c,enumerable:!0},observableDiff:{value:l,enumerable:!0},applyDiff:{value:h,enumerable:!0},applyChange:{value:d,enumerable:!0},revertChange:{value:g,enumerable:!0},isConflict:{value:function(){return"undefined"!=typeof j},enumerable:!0},noConflict:{value:function(){return C&&(C.forEach(function(e){e()}),C=null),c},enumerable:!0}});var F={E:{color:"#2196F3",text:"CHANGED:"},N:{color:"#4CAF50",text:"ADDED:"},D:{color:"#F44336",text:"DELETED:"},A:{color:"#2196F3",text:"ARRAY:"}},L={level:"log",logger:console,logErrors:!0,collapsed:void 0,predicate:void 0,duration:!1,timestamp:!0,stateTransformer:function(e){return e},actionTransformer:function(e){return e},errorTransformer:function(e){return e},colors:{title:function(){return"inherit"},prevState:function(){return"#9E9E9E"},action:function(){return"#03A9F4"},nextState:function(){return"#4CAF50"},error:function(){return"#F20404"}},diff:!1,diffPredicate:void 0,transformer:void 0},T=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},t=e.dispatch,r=e.getState;return"function"==typeof t||"function"==typeof r?S()({dispatch:t,getState:r}):void console.error("\n[redux-logger v3] BREAKING CHANGE\n[redux-logger v3] Since 3.0.0 redux-logger exports by default logger with default settings.\n[redux-logger v3] Change\n[redux-logger v3] import createLogger from 'redux-logger'\n[redux-logger v3] to\n[redux-logger v3] import { createLogger } from 'redux-logger'\n")};e.defaults=L,e.createLogger=S,e.logger=T,e.default=T,Object.defineProperty(e,"__esModule",{value:!0})});
@@ -44333,7 +44478,7 @@ sagaMiddleware.run(_index4.default);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(65)))
 
 /***/ }),
-/* 660 */
+/* 664 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44347,11 +44492,11 @@ var _redux = __webpack_require__(71);
 
 var _reduxForm = __webpack_require__(134);
 
-var _reducerAuthorization = __webpack_require__(661);
+var _reducerAuthorization = __webpack_require__(665);
 
 var _reducerAuthorization2 = _interopRequireDefault(_reducerAuthorization);
 
-var _reducerTasksList = __webpack_require__(662);
+var _reducerTasksList = __webpack_require__(666);
 
 var _reducerTasksList2 = _interopRequireDefault(_reducerTasksList);
 
@@ -44366,7 +44511,7 @@ exports.default = (0, _redux.combineReducers)({
 //import { routerReducer } from 'react-router-redux';
 
 /***/ }),
-/* 661 */
+/* 665 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44404,7 +44549,7 @@ var reducerAuthorization = function reducerAuthorization() {
 exports.default = reducerAuthorization;
 
 /***/ }),
-/* 662 */
+/* 666 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44423,9 +44568,9 @@ var types = _interopRequireWildcard(_ActionTypes);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var initialState = {
-    newTasks: [],
-    inprocessTasks: [],
-    doneTasks: []
+    newtasks: [],
+    inprogress: [],
+    completed: []
 };
 
 var reducerTasksList = function reducerTasksList() {
@@ -44435,6 +44580,45 @@ var reducerTasksList = function reducerTasksList() {
     switch (action.type) {
         case types.SET_TASKS_LIST:
             return _extends({}, state, action.tasksList);
+        case types.STATUS_CHANGED_SUCCESSFUL:
+            {
+                var _action$options = action.options,
+                    taskID = _action$options.taskID,
+                    newState = _action$options.newState,
+                    prevState = _action$options.prevState;
+
+                var nextState = _extends({}, state);
+                nextState[prevState] = state[prevState].filter(function (el) {
+                    if (Number(el.id) === Number(taskID)) {
+                        nextState[newState].push(el);
+                        return false;
+                    };
+                    return true;
+                });
+                return nextState;
+            }
+        case types.SAVE_TASK_DATA_SUCCESSFUL:
+            {
+                var data = action.data,
+                    status = action.status;
+
+                var i = state[status].findIndex(function (el) {
+                    return el.id === data.id;
+                });
+                var _newState = _extends({}, state);
+                _newState[status][i] = data;
+                return _newState;
+            }
+        case types.ADD_TASK:
+            {
+                var _newState2 = _extends({}, state);
+                _newState2[action.status].unshift({
+                    id: action.status,
+                    title: '',
+                    description: ''
+                });
+                return _newState2;
+            }
         default:
             return state;
     }
@@ -44443,12 +44627,12 @@ var reducerTasksList = function reducerTasksList() {
 exports.default = reducerTasksList;
 
 /***/ }),
-/* 663 */
+/* 667 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_middleware__ = __webpack_require__(664);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_middleware__ = __webpack_require__(668);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__internal_runSaga__ = __webpack_require__(239);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "runSaga", function() { return __WEBPACK_IMPORTED_MODULE_1__internal_runSaga__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__internal_channel__ = __webpack_require__(63);
@@ -44467,7 +44651,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__internal_io__ = __webpack_require__(55);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "detach", function() { return __WEBPACK_IMPORTED_MODULE_6__internal_io__["i"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__effects__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(668);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(672);
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "effects", function() { return __WEBPACK_IMPORTED_MODULE_7__effects__; });
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "utils", function() { return __WEBPACK_IMPORTED_MODULE_8__utils__; });
 
@@ -44486,7 +44670,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 664 */
+/* 668 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44580,7 +44764,7 @@ function sagaMiddlewareFactory() {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(7)))
 
 /***/ }),
-/* 665 */
+/* 669 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44618,7 +44802,7 @@ function takeEvery(patternOrChannel, worker) {
 }
 
 /***/ }),
-/* 666 */
+/* 670 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44666,7 +44850,7 @@ function takeLatest(patternOrChannel, worker) {
 }
 
 /***/ }),
-/* 667 */
+/* 671 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44723,7 +44907,7 @@ function throttle(delayLength, pattern, worker) {
 }
 
 /***/ }),
-/* 668 */
+/* 672 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -44746,7 +44930,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 669 */
+/* 673 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44759,11 +44943,11 @@ exports.default = sagas;
 
 var _effects = __webpack_require__(64);
 
-var _index = __webpack_require__(670);
+var _index = __webpack_require__(674);
 
 var _index2 = _interopRequireDefault(_index);
 
-var _tasksList = __webpack_require__(690);
+var _tasksList = __webpack_require__(694);
 
 var _tasksList2 = _interopRequireDefault(_tasksList);
 
@@ -44792,7 +44976,7 @@ function sagas() {
 };
 
 /***/ }),
-/* 670 */
+/* 674 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44808,7 +44992,7 @@ var _ActionTypes = __webpack_require__(62);
 
 var types = _interopRequireWildcard(_ActionTypes);
 
-var _fetchAuthData = __webpack_require__(671);
+var _fetchAuthData = __webpack_require__(675);
 
 var _fetchAuthData2 = _interopRequireDefault(_fetchAuthData);
 
@@ -44837,7 +45021,7 @@ function auth() {
 exports.default = auth;
 
 /***/ }),
-/* 671 */
+/* 675 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44919,7 +45103,7 @@ function fetchAuthData(_ref) {
 exports.default = fetchAuthData;
 
 /***/ }),
-/* 672 */
+/* 676 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44927,7 +45111,7 @@ exports.default = fetchAuthData;
 
 var utils = __webpack_require__(23);
 var bind = __webpack_require__(243);
-var Axios = __webpack_require__(674);
+var Axios = __webpack_require__(678);
 var defaults = __webpack_require__(153);
 
 /**
@@ -44962,14 +45146,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(247);
-axios.CancelToken = __webpack_require__(688);
+axios.CancelToken = __webpack_require__(692);
 axios.isCancel = __webpack_require__(246);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(689);
+axios.spread = __webpack_require__(693);
 
 module.exports = axios;
 
@@ -44978,7 +45162,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 673 */
+/* 677 */
 /***/ (function(module, exports) {
 
 /*!
@@ -45005,7 +45189,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 674 */
+/* 678 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45013,8 +45197,8 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(153);
 var utils = __webpack_require__(23);
-var InterceptorManager = __webpack_require__(683);
-var dispatchRequest = __webpack_require__(684);
+var InterceptorManager = __webpack_require__(687);
+var dispatchRequest = __webpack_require__(688);
 
 /**
  * Create a new instance of Axios
@@ -45091,7 +45275,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 675 */
+/* 679 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45110,7 +45294,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 676 */
+/* 680 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45143,7 +45327,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 677 */
+/* 681 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45171,7 +45355,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 678 */
+/* 682 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45246,7 +45430,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 679 */
+/* 683 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45306,7 +45490,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 680 */
+/* 684 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45381,7 +45565,7 @@ module.exports = (
 
 
 /***/ }),
-/* 681 */
+/* 685 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45424,7 +45608,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 682 */
+/* 686 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45484,7 +45668,7 @@ module.exports = (
 
 
 /***/ }),
-/* 683 */
+/* 687 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45543,18 +45727,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 684 */
+/* 688 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(23);
-var transformData = __webpack_require__(685);
+var transformData = __webpack_require__(689);
 var isCancel = __webpack_require__(246);
 var defaults = __webpack_require__(153);
-var isAbsoluteURL = __webpack_require__(686);
-var combineURLs = __webpack_require__(687);
+var isAbsoluteURL = __webpack_require__(690);
+var combineURLs = __webpack_require__(691);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -45636,7 +45820,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 685 */
+/* 689 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45663,7 +45847,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 686 */
+/* 690 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45684,7 +45868,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 687 */
+/* 691 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45705,7 +45889,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 688 */
+/* 692 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45769,7 +45953,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 689 */
+/* 693 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45803,7 +45987,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 690 */
+/* 694 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45819,18 +46003,26 @@ var _ActionTypes = __webpack_require__(62);
 
 var types = _interopRequireWildcard(_ActionTypes);
 
-var _fetchGetTasksList = __webpack_require__(691);
+var _fetchGetTasksList = __webpack_require__(695);
 
 var _fetchGetTasksList2 = _interopRequireDefault(_fetchGetTasksList);
+
+var _fetchStatusChange = __webpack_require__(704);
+
+var _fetchStatusChange2 = _interopRequireDefault(_fetchStatusChange);
+
+var _fetchSaveTaskData = __webpack_require__(705);
+
+var _fetchSaveTaskData2 = _interopRequireDefault(_fetchSaveTaskData);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(auth);
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(taskList);
 
-function auth() {
-	return regeneratorRuntime.wrap(function auth$(_context) {
+function taskList() {
+	return regeneratorRuntime.wrap(function taskList$(_context) {
 		while (1) {
 			switch (_context.prev = _context.next) {
 				case 0:
@@ -45838,6 +46030,14 @@ function auth() {
 					return (0, _effects.takeEvery)(types.FETCH_GET_TASKS_LIST, _fetchGetTasksList2.default);
 
 				case 2:
+					_context.next = 4;
+					return (0, _effects.takeEvery)(types.FETCH_STATUS_CHANGE, _fetchStatusChange2.default);
+
+				case 4:
+					_context.next = 6;
+					return (0, _effects.takeEvery)(types.FETCH_SAVE_TASK_DATA, _fetchSaveTaskData2.default);
+
+				case 6:
 				case 'end':
 					return _context.stop();
 			}
@@ -45845,10 +46045,10 @@ function auth() {
 	}, _marked, this);
 };
 
-exports.default = auth;
+exports.default = taskList;
 
 /***/ }),
-/* 691 */
+/* 695 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45888,7 +46088,7 @@ function fetchGetTasksList() {
 
                     //Получаем от сервера ответ
                     response = {
-                        newTasks: [{
+                        newtasks: [{
                             id: 123,
                             title: 'Cоздание формы авторизации',
                             description: 'Форма авторизации должна иметь поля: логин, пароль, кнопка сабмит'
@@ -45897,8 +46097,12 @@ function fetchGetTasksList() {
                             title: 'Cоздание карточки Задачи',
                             description: 'Карточка должна иметь поля: название, описание задачи.....'
                         }],
-                        inprocessTasks: [],
-                        doneTasks: []
+                        inprogress: [],
+                        completed: [{
+                            id: 1,
+                            title: 'Tест',
+                            description: 'Тест.....'
+                        }]
                     };
                     _context.next = 5;
                     return (0, _effects.put)(_actions2.default.setTasksList(response));
@@ -45928,35 +46132,175 @@ function fetchGetTasksList() {
 exports.default = fetchGetTasksList;
 
 /***/ }),
-/* 692 */,
-/* 693 */,
-/* 694 */,
-/* 695 */,
-/* 696 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 696 */,
 /* 697 */,
-/* 698 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 698 */,
 /* 699 */,
-/* 700 */
-/***/ (function(module, exports) {
+/* 700 */,
+/* 701 */,
+/* 702 */,
+/* 703 */,
+/* 704 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _effects = __webpack_require__(64);
+
+var _axios = __webpack_require__(242);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _actions = __webpack_require__(93);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(fetchStatusChange);
+
+function fetchStatusChange(_ref) {
+    var options = _ref.options;
+    var response;
+    return regeneratorRuntime.wrap(function fetchStatusChange$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+
+                    console.log('HelloSaga fetchStatusChange', options);
+
+                    _context.prev = 1;
+
+                    //Делаем запрос на сервер для изменения статуса таски
+                    //const response = (yield call(axios.post, URL_TO_API, val)).data;
+
+                    //Получаем от сервера ответ
+                    response = true;
+
+                    if (!response) {
+                        _context.next = 8;
+                        break;
+                    }
+
+                    _context.next = 6;
+                    return (0, _effects.put)(_actions2.default.statusChangedSuccessful(options));
+
+                case 6:
+                    _context.next = 8;
+                    break;
+
+                case 8:
+                    ;
+                    _context.next = 14;
+                    break;
+
+                case 11:
+                    _context.prev = 11;
+                    _context.t0 = _context['catch'](1);
+
+                    console.log(_context.t0);
+                    //yield put({type: "USER_FETCH_FAILED", message: e.message});
+
+                case 14:
+                    ;
+
+                case 15:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this, [[1, 11]]);
+};
+
+exports.default = fetchStatusChange;
 
 /***/ }),
-/* 701 */,
-/* 702 */
-/***/ (function(module, exports) {
+/* 705 */
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _effects = __webpack_require__(64);
+
+var _axios = __webpack_require__(242);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _actions = __webpack_require__(93);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _marked = /*#__PURE__*/regeneratorRuntime.mark(fetchSaveTaskData);
+
+function fetchSaveTaskData(_ref) {
+    var data = _ref.data;
+    var response, status;
+    return regeneratorRuntime.wrap(function fetchSaveTaskData$(_context) {
+        while (1) {
+            switch (_context.prev = _context.next) {
+                case 0:
+
+                    console.log('HelloSaga fetchSaveTaskData', data);
+
+                    _context.prev = 1;
+
+                    //Делаем запрос на сервер для сохранения данных таски
+                    //const response = (yield call(axios.post, URL_TO_API, val)).data;
+
+                    //Получаем от сервера ответ
+                    response = true;
+
+                    if (!response) {
+                        _context.next = 10;
+                        break;
+                    }
+
+                    status = data.currentState;
+
+                    delete data.currentState;
+                    _context.next = 8;
+                    return (0, _effects.put)(_actions2.default.saveTaskDataSuccessful(data, status));
+
+                case 8:
+                    _context.next = 10;
+                    break;
+
+                case 10:
+                    ;
+                    _context.next = 16;
+                    break;
+
+                case 13:
+                    _context.prev = 13;
+                    _context.t0 = _context['catch'](1);
+
+                    console.log(_context.t0);
+                    //yield put({type: "USER_FETCH_FAILED", message: e.message});
+
+                case 16:
+                    ;
+
+                case 17:
+                case 'end':
+                    return _context.stop();
+            }
+        }
+    }, _marked, this, [[1, 13]]);
+};
+
+exports.default = fetchSaveTaskData;
 
 /***/ })
 /******/ ]);

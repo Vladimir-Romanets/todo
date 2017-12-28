@@ -20,7 +20,9 @@ const mapStateToProps = ( state ) => {
 
 const mapDispatchToProps = ( dispatch ) => {
 	return {
-		//fetchGetTaskList: () => dispatch( actions.fetchGetTaskList() )
+		fetchStatusChange: (options) => dispatch(actions.fetchStatusChange(options) ),
+		fetchSaveTaskData: (data) => dispatch(actions.fetchSaveTaskData(data)),
+		addTask: (state) => dispatch(actions.addTask(state))
 	};
 };
 

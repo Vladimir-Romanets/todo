@@ -10,6 +10,20 @@
     font-weight: 800;
     line-height: 2rem;
 }
+.col__add-task{
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s linear;
+    font-size: 0;
+}
+.col__add-task:hover{
+    background: rgba(45,45,45,.3);
+}
+.add-task__ico{
+   width: 25px;
+   display: inline-block;
+}
 .task{
     margin: 20px auto;
     padding: 20px 5px;

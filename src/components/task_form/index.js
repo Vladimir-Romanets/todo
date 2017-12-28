@@ -4,9 +4,34 @@ import { connect } from 'react-redux';
 
 import './style.css';
 
-const TaskForm = ({ handleSubmit }) => {
+const TaskForm = (props) => {
+    const option = ['newtasks', 'inprogress', 'completed'].map( (el) => 
+        <option
+            key = { el }
+            value = { el }>
+                { el }
+        </option>
+    );
+
     return(
-        <form onSubmit={ handleSubmit }>
+        <form onSubmit={ props.handleSubmit }>
+            <div className="task__row mng">
+                <i className="mng__item" onClick={ props.handleSubmit } >
+                    <img src="./images/save.svg" alt="save" title="Save" />
+                </i>
+            </div>
+            <div className="task__row">
+                <Field
+                    component="select"
+                    name="currentState"
+                    onChange={ (e, newState, prevState) => props.fetchStatusChange({
+                        taskID: props.initialValues.id,
+                        newState,
+                        prevState
+                    })} >
+                        { option }
+                </Field>
+            </div>
             <div className="task__row">
                 <Field
                     component="input"
@@ -25,5 +50,6 @@ const TaskForm = ({ handleSubmit }) => {
 };
 
 export default reduxForm({
-    form:['text']
+    form:['text'],
+    enableReinitialize: true
 })(TaskForm);

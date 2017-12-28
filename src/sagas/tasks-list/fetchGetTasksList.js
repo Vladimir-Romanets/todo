@@ -12,7 +12,7 @@ function* fetchGetTasksList() {
 
         //Получаем от сервера ответ
         const response = {
-            newTasks: [
+            newtasks: [
                 {
                     id: 123,
                     title: 'Cоздание формы авторизации',
@@ -24,8 +24,14 @@ function* fetchGetTasksList() {
                     description: 'Карточка должна иметь поля: название, описание задачи.....'
                 }
             ],
-            inprocessTasks: [],
-            doneTasks: []
+            inprogress: [],
+            completed: [
+                {
+                    id: 1,
+                    title: 'Tест',
+                    description: 'Тест.....'
+                }
+            ]
         };
 
         yield put( actions.setTasksList(response) );

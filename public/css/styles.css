@@ -39,21 +39,33 @@ textarea{
     outline: none;
     box-sizing: border-box;
     height: auto;
+    font-family: Roboto;
 }
 .task__row + .task__row{
     margin: 10px 0 0;
 }
 .task__row [name="title"],
 .task__row [name="description"]{
-    padding: 5px;
+    padding: 2px 5px;
     display: block;
     width: 100%;
     font-size: 1rem;
     box-sizing: border-box;
 }
 .task__row [name="description"]{
-    min-height: 5rem;
+    min-height: 6rem;
     resize: none;
+}
+.task__row .mng{
+    font-size: 0;
+}
+.mng__item{
+    margin: 0 10px;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    overflow: hidden;
+    cursor: pointer;
 }.dashboard__col{
     padding: 10px 20px;
     list-style: none;
@@ -65,6 +77,20 @@ textarea{
     text-align: center;
     font-weight: 800;
     line-height: 2rem;
+}
+.col__add-task{
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s linear;
+    font-size: 0;
+}
+.col__add-task:hover{
+    background: rgba(45,45,45,.3);
+}
+.add-task__ico{
+   width: 25px;
+   display: inline-block;
 }
 .task{
     margin: 20px auto;
@@ -78,6 +104,11 @@ textarea{
 body{
     padding: 0;
     margin: 0;
+    font-family: Roboto, 'sans-serif';
+}
+img{
+    width: 100%;
+    height: auto;
 }
 .container{
     min-height: 100vh;
