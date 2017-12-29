@@ -1,0 +1,19 @@
+.mng-btn{
+    padding: 10px;
+    font-size: 0;
+    text-align: right;
+}
+.mng-btn__item{
+    margin: 0 10px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.mng-btn__item:first-child{
+    margin-left: 0;
+}
+.mng-btn__item:last-child{
+    margin-right: 0;
+}

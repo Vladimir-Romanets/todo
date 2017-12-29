@@ -20,14 +20,17 @@
     position: absolute;
     top: 19px;
     left: 12px;
-
-    transition: all .25s linear;
+    z-index: 0;
+    transition: all .2s linear;
 }
 .auth-form__row input{
     padding: 3px 5px;
     border: 1px solid #454554;
     width: 210px;
     text-align: left;
+    position: relative;
+    z-index: 1;
+    background: transparent;
 }
 .auth-form__row input:focus + label,
 .auth-form__row input:not(:invalid) + label{

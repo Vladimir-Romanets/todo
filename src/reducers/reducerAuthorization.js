@@ -12,6 +12,8 @@ const reducerAuthorization = (state = initialState, action) => {
                 ...state,
                 ...action.authData
             };
+        case types.FETCH_LOGOUT:
+            return initialState;
         default:
             return state;
     }
