@@ -4,8 +4,8 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "build": "webpack --watch",
-    "prod": "webpack --p"
+    "dev": "export NODE_ENV=dev&& webpack --w",
+    "prod": "export NODE_ENV=prod && webpack --progress"
   },
   "author": "",
   "license": "ISC",
