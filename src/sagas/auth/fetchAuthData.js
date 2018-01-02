@@ -1,23 +1,23 @@
 import { call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import actions from '../../actions';
+import { path } from '../config';
 
 function* fetchAuthData({ data }){
 
-	console.log('HelloSaga', data);
+	console.log('HelloSaga fetchAuthData', data);
 
 	try {
 		//Передаем логин/пароль на сервер для авторизации
-		//const response = (yield call(axios.post, URL_TO_API, val)).data;
+		const { data: response } = yield call(axios.post, `${path}auth`, data);
+		console.log(response);
 
-		//Получаем от сервера ответ при успешной авторизации
-		const response = {
-			auth: true,
-			token: '31cc1f0ca737a62b1f9c35154a1cdb7a'
-		};
 		if ( response.auth ) {
-			yield put( actions.authResponse(response) );
-			yield put(actions.fetchGetTaskList() );
+			yield put(actions.authResponse(response) );
+			yield put(actions.fetchGetTaskList({
+				token: response.token,
+				login: response.login
+			}) );
 		}
 	} catch (e) {
 		console.log(e);

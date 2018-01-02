@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import actions from '../../actions';
+import { path } from '../config';
 
 function* fetchSaveTaskData({ data }) {
 
@@ -8,15 +9,17 @@ function* fetchSaveTaskData({ data }) {
 
     try {
         //Делаем запрос на сервер для сохранения данных таски
-        //const response = (yield call(axios.post, URL_TO_API, val)).data;
+        const { data: response } = yield call(axios.post, `${path}savetaskdata`, data);
 
-        //Получаем от сервера ответ
-        const response = true;
-
-        if (response) {
-            const status = data.currentState;
-            delete data.currentState;
-            yield put(actions.saveTaskDataSuccessful(data, status));
+        if ( response.saveStatus ) {
+            const status = response.currentState;
+            delete response.currentState;
+            delete response.saveStatus;
+            if ( Number(data.id) ){
+                yield put(actions.saveTaskDataSuccessful(response, status));
+            } else {
+                yield put(actions.saveNewTaskDataSuccessful(response, status));
+            };
         } else {
 
         };

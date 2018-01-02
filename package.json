@@ -4,6 +4,7 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
+    "start": "nodemon server/ --exec babel-node",
     "dev": "export NODE_ENV=dev&& webpack --w",
     "prod": "export NODE_ENV=prod && webpack --progress"
   },
@@ -13,6 +14,11 @@
     "axios": "^0.17.1",
     "babel-polyfill": "^6.26.0",
     "history": "^4.7.2",
+    "koa": "^2.4.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-logger": "^3.1.0",
+    "koa-router": "^7.3.0",
+    "koa2-cors": "^2.0.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
@@ -24,6 +30,7 @@
     "redux-saga": "^0.16.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",

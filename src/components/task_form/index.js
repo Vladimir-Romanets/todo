@@ -24,6 +24,7 @@ const TaskForm = (props) => {
                 <Field
                     component="select"
                     name="currentState"
+                    disabled={ !Number(props.form) }
                     onChange={ (e, newState, prevState) => props.fetchStatusChange({
                         taskID: props.initialValues.id,
                         newState,

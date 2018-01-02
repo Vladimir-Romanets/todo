@@ -9,7 +9,7 @@ export default function TaskList({ title, list, currentState, ...rest }){
                 form={ `${el.id}` }
                 initialValues={{ ...el, currentState }}
                 fetchStatusChange={ rest.fetchStatusChange }
-                onSubmit={ ( data ) => rest.fetchSaveTaskData( data ) }
+                onSubmit={ (data) => rest.fetchSaveTaskData(data) }
             />
         </li>
     );

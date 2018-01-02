@@ -3024,6 +3024,7 @@ var FETCH_STATUS_CHANGE = exports.FETCH_STATUS_CHANGE = 'FETCH_STATUS_CHANGE';
 var STATUS_CHANGED_SUCCESSFUL = exports.STATUS_CHANGED_SUCCESSFUL = 'STATUS_CHANGED_SUCCESSFUL';
 var FETCH_SAVE_TASK_DATA = exports.FETCH_SAVE_TASK_DATA = 'FETCH_SAVE_TASK_DATA';
 var SAVE_TASK_DATA_SUCCESSFUL = exports.SAVE_TASK_DATA_SUCCESSFUL = 'SAVE_TASK_DATA_SUCCESSFUL';
+var SAVE_NEW_TASK_DATA_SUCCESSFUL = exports.SAVE_NEW_TASK_DATA_SUCCESSFUL = 'SAVE_NEW_TASK_DATA_SUCCESSFUL';
 var ADD_TASK = exports.ADD_TASK = 'ADD_TASK';
 var FETCH_LOGOUT = exports.FETCH_LOGOUT = 'FETCH_LOGOUT';
 
@@ -35859,9 +35860,10 @@ var authResponse = exports.authResponse = function authResponse(authData) {
     };
 };
 
-var fetchLogout = exports.fetchLogout = function fetchLogout() {
+var fetchLogout = exports.fetchLogout = function fetchLogout(data) {
     return {
-        type: types.FETCH_LOGOUT
+        type: types.FETCH_LOGOUT,
+        data: data
     };
 };
 
@@ -35875,7 +35877,7 @@ var fetchLogout = exports.fetchLogout = function fetchLogout() {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.addTask = exports.saveTaskDataSuccessful = exports.fetchSaveTaskData = exports.statusChangedSuccessful = exports.fetchStatusChange = exports.setTasksList = exports.fetchGetTaskList = undefined;
+exports.addTask = exports.saveNewTaskDataSuccessful = exports.saveTaskDataSuccessful = exports.fetchSaveTaskData = exports.statusChangedSuccessful = exports.fetchStatusChange = exports.setTasksList = exports.fetchGetTaskList = undefined;
 
 var _ActionTypes = __webpack_require__(64);
 
@@ -35883,9 +35885,10 @@ var types = _interopRequireWildcard(_ActionTypes);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var fetchGetTaskList = exports.fetchGetTaskList = function fetchGetTaskList() {
+var fetchGetTaskList = exports.fetchGetTaskList = function fetchGetTaskList(data) {
     return {
-        type: types.FETCH_GET_TASKS_LIST
+        type: types.FETCH_GET_TASKS_LIST,
+        data: data
     };
 };
 
@@ -35896,17 +35899,17 @@ var setTasksList = exports.setTasksList = function setTasksList(tasksList) {
     };
 };
 
-var fetchStatusChange = exports.fetchStatusChange = function fetchStatusChange(options) {
+var fetchStatusChange = exports.fetchStatusChange = function fetchStatusChange(data) {
     return {
         type: types.FETCH_STATUS_CHANGE,
-        options: options
+        data: data
     };
 };
 
-var statusChangedSuccessful = exports.statusChangedSuccessful = function statusChangedSuccessful(options) {
+var statusChangedSuccessful = exports.statusChangedSuccessful = function statusChangedSuccessful(data) {
     return {
         type: types.STATUS_CHANGED_SUCCESSFUL,
-        options: options
+        data: data
     };
 };
 
@@ -35920,6 +35923,14 @@ var fetchSaveTaskData = exports.fetchSaveTaskData = function fetchSaveTaskData(d
 var saveTaskDataSuccessful = exports.saveTaskDataSuccessful = function saveTaskDataSuccessful(data, status) {
     return {
         type: types.SAVE_TASK_DATA_SUCCESSFUL,
+        data: data,
+        status: status
+    };
+};
+
+var saveNewTaskDataSuccessful = exports.saveNewTaskDataSuccessful = function saveNewTaskDataSuccessful(data, status) {
+    return {
+        type: types.SAVE_NEW_TASK_DATA_SUCCESSFUL,
         data: data,
         status: status
     };
@@ -44216,7 +44227,7 @@ function DashBoard(_ref) {
     return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_manage_toolbar2.default, { fetchLogout: rest.fetchLogout }),
+        _react2.default.createElement(_manage_toolbar2.default, { fetchLogout: rest.fetchLogout, login: rest.login }),
         _react2.default.createElement(
             'div',
             { className: 'dashboard' },
@@ -44302,6 +44313,7 @@ var TaskForm = function TaskForm(props) {
                 {
                     component: 'select',
                     name: 'currentState',
+                    disabled: !Number(props.form),
                     onChange: function onChange(e, newState, prevState) {
                         return props.fetchStatusChange({
                             taskID: props.initialValues.id,
@@ -44373,14 +44385,17 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 
 function ManageToolbar(_ref) {
     var fetchLogout = _ref.fetchLogout,
-        rest = _objectWithoutProperties(_ref, ['fetchLogout']);
+        login = _ref.login,
+        rest = _objectWithoutProperties(_ref, ['fetchLogout', 'login']);
 
     return _react2.default.createElement(
         'ul',
         { className: 'mng-btn' },
         _react2.default.createElement(
             'li',
-            { className: 'mng-btn__item', onClick: fetchLogout },
+            { className: 'mng-btn__item', onClick: function onClick() {
+                    return fetchLogout({ login: login });
+                } },
             _react2.default.createElement('img', { src: './images/logout.svg', alt: 'Logout', title: 'Logout' })
         )
     );
@@ -44461,14 +44476,15 @@ var DashboardContainer = function (_Component) {
 var mapStateToProps = function mapStateToProps(state) {
 	return {
 		auth: state.reducerAuthorization.auth,
+		login: state.reducerAuthorization.login,
 		tasksList: state.reducerTasksList
 	};
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	return {
-		fetchStatusChange: function fetchStatusChange(options) {
-			return dispatch(_actions2.default.fetchStatusChange(options));
+		fetchStatusChange: function fetchStatusChange(data) {
+			return dispatch(_actions2.default.fetchStatusChange(data));
 		},
 		fetchSaveTaskData: function fetchSaveTaskData(data) {
 			return dispatch(_actions2.default.fetchSaveTaskData(data));
@@ -44476,8 +44492,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		addTask: function addTask(state) {
 			return dispatch(_actions2.default.addTask(state));
 		},
-		fetchLogout: function fetchLogout() {
-			return dispatch(_actions2.default.fetchLogout());
+		fetchLogout: function fetchLogout(data) {
+			return dispatch(_actions2.default.fetchLogout(data));
 		}
 	};
 };
@@ -44593,6 +44609,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var initialState = {
     auth: false,
+    login: null,
     token: null
 };
 
@@ -44646,10 +44663,10 @@ var reducerTasksList = function reducerTasksList() {
             return _extends({}, state, action.tasksList);
         case types.STATUS_CHANGED_SUCCESSFUL:
             {
-                var _action$options = action.options,
-                    taskID = _action$options.taskID,
-                    newState = _action$options.newState,
-                    prevState = _action$options.prevState;
+                var _action$data = action.data,
+                    taskID = _action$data.taskID,
+                    newState = _action$data.newState,
+                    prevState = _action$data.prevState;
 
                 var nextState = _extends({}, state);
                 nextState[prevState] = state[prevState].filter(function (el) {
@@ -44673,15 +44690,27 @@ var reducerTasksList = function reducerTasksList() {
                 _newState[status][i] = data;
                 return _newState;
             }
+        case types.SAVE_NEW_TASK_DATA_SUCCESSFUL:
+            {
+                var _data = action.data,
+                    _status = action.status;
+
+                var _i = state[_status].findIndex(function (el) {
+                    return !Number(el.id);
+                });
+                var _newState2 = _extends({}, state);
+                _newState2[_status][_i] = _data;
+                return _newState2;
+            }
         case types.ADD_TASK:
             {
-                var _newState2 = _extends({}, state);
-                _newState2[action.status].unshift({
+                var _newState3 = _extends({}, state);
+                _newState3[action.status].unshift({
                     id: action.status,
                     title: '',
                     description: ''
                 });
-                return _newState2;
+                return _newState3;
             }
         default:
             return state;
@@ -45113,63 +45142,69 @@ var _actions = __webpack_require__(55);
 
 var _actions2 = _interopRequireDefault(_actions);
 
+var _config = __webpack_require__(710);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(fetchAuthData);
 
 function fetchAuthData(_ref) {
 	var data = _ref.data;
-	var response;
+
+	var _ref2, response;
+
 	return regeneratorRuntime.wrap(function fetchAuthData$(_context) {
 		while (1) {
 			switch (_context.prev = _context.next) {
 				case 0:
 
-					console.log('HelloSaga', data);
+					console.log('HelloSaga fetchAuthData', data);
 
 					_context.prev = 1;
+					_context.next = 4;
+					return (0, _effects.call)(_axios2.default.post, _config.path + 'auth', data);
 
-					//Передаем логин/пароль на сервер для авторизации
-					//const response = (yield call(axios.post, URL_TO_API, val)).data;
+				case 4:
+					_ref2 = _context.sent;
+					response = _ref2.data;
 
-					//Получаем от сервера ответ при успешной авторизации
-					response = {
-						auth: true,
-						token: '31cc1f0ca737a62b1f9c35154a1cdb7a'
-					};
+					console.log(response);
 
 					if (!response.auth) {
-						_context.next = 8;
+						_context.next = 12;
 						break;
 					}
 
-					_context.next = 6;
+					_context.next = 10;
 					return (0, _effects.put)(_actions2.default.authResponse(response));
 
-				case 6:
-					_context.next = 8;
-					return (0, _effects.put)(_actions2.default.fetchGetTaskList());
+				case 10:
+					_context.next = 12;
+					return (0, _effects.put)(_actions2.default.fetchGetTaskList({
+						token: response.token,
+						login: response.login
+					}));
 
-				case 8:
-					_context.next = 13;
+				case 12:
+					_context.next = 17;
 					break;
 
-				case 10:
-					_context.prev = 10;
+				case 14:
+					_context.prev = 14;
 					_context.t0 = _context['catch'](1);
 
 					console.log(_context.t0);
 					//yield put({type: "USER_FETCH_FAILED", message: e.message});
 
-				case 13:
+				case 17:
 					;
 
-				case 14:
+				case 18:
 				case 'end':
 					return _context.stop();
 			}
 		}
-	}, _marked, this, [[1, 10]]);
+	}, _marked, this, [[1, 14]]);
 };
 
 exports.default = fetchAuthData;
@@ -46079,11 +46114,17 @@ var _actions = __webpack_require__(55);
 
 var _actions2 = _interopRequireDefault(_actions);
 
+var _config = __webpack_require__(710);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(fetchLogaut);
 
-function fetchLogaut() {
+function fetchLogaut(_ref) {
+	var data = _ref.data;
+
+	var _ref2, response;
+
 	return regeneratorRuntime.wrap(function fetchLogaut$(_context) {
 		while (1) {
 			switch (_context.prev = _context.next) {
@@ -46091,23 +46132,36 @@ function fetchLogaut() {
 
 					console.log('HelloSaga fetchLogaut');
 
-					try {
-						//Отправляем запрос на сервер для разлогирования
-						//const response = (yield call(axios.post, URL_TO_API, val)).data;
+					_context.prev = 1;
+					_context.next = 4;
+					return (0, _effects.call)(_axios2.default.post, _config.path + 'logout', data);
 
-						//Получаем от сервера ответ при успешной авторизации
-						console.log('logout');
-					} catch (e) {
-						console.log(e);
-						//yield put({type: "USER_FETCH_FAILED", message: e.message});
-					};
+				case 4:
+					_ref2 = _context.sent;
+					response = _ref2.data;
 
-				case 3:
+
+					//Получаем от сервера ответ при успешной авторизации
+					console.log('logout', response);
+					_context.next = 12;
+					break;
+
+				case 9:
+					_context.prev = 9;
+					_context.t0 = _context['catch'](1);
+
+					console.log(_context.t0);
+					//yield put({type: "USER_FETCH_FAILED", message: e.message});
+
+				case 12:
+					;
+
+				case 13:
 				case 'end':
 					return _context.stop();
 			}
 		}
-	}, _marked, this);
+	}, _marked, this, [[1, 9]]);
 };
 
 exports.default = fetchLogaut;
@@ -46194,65 +46248,54 @@ var _actions = __webpack_require__(55);
 
 var _actions2 = _interopRequireDefault(_actions);
 
+var _config = __webpack_require__(710);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(fetchGetTasksList);
 
-function fetchGetTasksList() {
-    var response;
+function fetchGetTasksList(_ref) {
+    var data = _ref.data;
+
+    var _ref2, response;
+
     return regeneratorRuntime.wrap(function fetchGetTasksList$(_context) {
         while (1) {
             switch (_context.prev = _context.next) {
                 case 0:
+                    _context.prev = 0;
+                    _context.next = 3;
+                    return (0, _effects.call)(_axios2.default.post, _config.path + 'gettasklist', data);
 
-                    console.log('HelloSaga fetchGetTasksList');
+                case 3:
+                    _ref2 = _context.sent;
+                    response = _ref2.data;
 
-                    _context.prev = 1;
+                    console.log('HelloSaga fetchGetTasksList', response);
 
-                    //Делаем запрос на сервер для получения списка тасков
-                    //const response = (yield call(axios.post, URL_TO_API, val)).data;
-
-                    //Получаем от сервера ответ
-                    response = {
-                        newtasks: [{
-                            id: 123,
-                            title: 'Cоздание формы авторизации',
-                            description: 'Форма авторизации должна иметь поля: логин, пароль, кнопка сабмит'
-                        }, {
-                            id: 124,
-                            title: 'Cоздание карточки Задачи',
-                            description: 'Карточка должна иметь поля: название, описание задачи.....'
-                        }],
-                        inprogress: [],
-                        completed: [{
-                            id: 1,
-                            title: 'Tест',
-                            description: 'Тест.....'
-                        }]
-                    };
-                    _context.next = 5;
+                    _context.next = 8;
                     return (0, _effects.put)(_actions2.default.setTasksList(response));
 
-                case 5:
-                    _context.next = 10;
+                case 8:
+                    _context.next = 13;
                     break;
 
-                case 7:
-                    _context.prev = 7;
-                    _context.t0 = _context['catch'](1);
+                case 10:
+                    _context.prev = 10;
+                    _context.t0 = _context['catch'](0);
 
                     console.log(_context.t0);
                     //yield put({type: "USER_FETCH_FAILED", message: e.message});
 
-                case 10:
+                case 13:
                     ;
 
-                case 11:
+                case 14:
                 case 'end':
                     return _context.stop();
             }
         }
-    }, _marked, this, [[1, 7]]);
+    }, _marked, this, [[0, 10]]);
 };
 
 exports.default = fetchGetTasksList;
@@ -46278,61 +46321,61 @@ var _actions = __webpack_require__(55);
 
 var _actions2 = _interopRequireDefault(_actions);
 
+var _config = __webpack_require__(710);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(fetchStatusChange);
 
 function fetchStatusChange(_ref) {
-    var options = _ref.options;
-    var response;
+    var data = _ref.data;
+
+    var _ref2, response;
+
     return regeneratorRuntime.wrap(function fetchStatusChange$(_context) {
         while (1) {
             switch (_context.prev = _context.next) {
                 case 0:
 
-                    console.log('HelloSaga fetchStatusChange', options);
+                    console.log('HelloSaga fetchStatusChange', data);
 
                     _context.prev = 1;
+                    _context.next = 4;
+                    return (0, _effects.call)(_axios2.default.post, _config.path + 'changestatus', data);
 
-                    //Делаем запрос на сервер для изменения статуса таски
-                    //const response = (yield call(axios.post, URL_TO_API, val)).data;
+                case 4:
+                    _ref2 = _context.sent;
+                    response = _ref2.data;
 
-                    //Получаем от сервера ответ
-                    response = true;
-
-                    if (!response) {
-                        _context.next = 8;
+                    if (!response.status) {
+                        _context.next = 9;
                         break;
                     }
 
-                    _context.next = 6;
-                    return (0, _effects.put)(_actions2.default.statusChangedSuccessful(options));
+                    _context.next = 9;
+                    return (0, _effects.put)(_actions2.default.statusChangedSuccessful(response.data));
 
-                case 6:
-                    _context.next = 8;
-                    break;
-
-                case 8:
+                case 9:
                     ;
-                    _context.next = 14;
+                    _context.next = 15;
                     break;
 
-                case 11:
-                    _context.prev = 11;
+                case 12:
+                    _context.prev = 12;
                     _context.t0 = _context['catch'](1);
 
                     console.log(_context.t0);
                     //yield put({type: "USER_FETCH_FAILED", message: e.message});
 
-                case 14:
+                case 15:
                     ;
 
-                case 15:
+                case 16:
                 case 'end':
                     return _context.stop();
             }
         }
-    }, _marked, this, [[1, 11]]);
+    }, _marked, this, [[1, 12]]);
 };
 
 exports.default = fetchStatusChange;
@@ -46358,13 +46401,17 @@ var _actions = __webpack_require__(55);
 
 var _actions2 = _interopRequireDefault(_actions);
 
+var _config = __webpack_require__(710);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _marked = /*#__PURE__*/regeneratorRuntime.mark(fetchSaveTaskData);
 
 function fetchSaveTaskData(_ref) {
     var data = _ref.data;
-    var response, status;
+
+    var _ref2, response, status;
+
     return regeneratorRuntime.wrap(function fetchSaveTaskData$(_context) {
         while (1) {
             switch (_context.prev = _context.next) {
@@ -46373,52 +46420,89 @@ function fetchSaveTaskData(_ref) {
                     console.log('HelloSaga fetchSaveTaskData', data);
 
                     _context.prev = 1;
+                    _context.next = 4;
+                    return (0, _effects.call)(_axios2.default.post, _config.path + 'savetaskdata', data);
 
-                    //Делаем запрос на сервер для сохранения данных таски
-                    //const response = (yield call(axios.post, URL_TO_API, val)).data;
+                case 4:
+                    _ref2 = _context.sent;
+                    response = _ref2.data;
 
-                    //Получаем от сервера ответ
-                    response = true;
-
-                    if (!response) {
-                        _context.next = 10;
+                    if (!response.saveStatus) {
+                        _context.next = 20;
                         break;
                     }
 
-                    status = data.currentState;
+                    status = response.currentState;
 
-                    delete data.currentState;
-                    _context.next = 8;
-                    return (0, _effects.put)(_actions2.default.saveTaskDataSuccessful(data, status));
+                    delete response.currentState;
+                    delete response.saveStatus;
 
-                case 8:
-                    _context.next = 10;
-                    break;
+                    if (!Number(data.id)) {
+                        _context.next = 15;
+                        break;
+                    }
 
-                case 10:
-                    ;
-                    _context.next = 16;
-                    break;
+                    _context.next = 13;
+                    return (0, _effects.put)(_actions2.default.saveTaskDataSuccessful(response, status));
 
                 case 13:
-                    _context.prev = 13;
+                    _context.next = 17;
+                    break;
+
+                case 15:
+                    _context.next = 17;
+                    return (0, _effects.put)(_actions2.default.saveNewTaskDataSuccessful(response, status));
+
+                case 17:
+                    ;
+                    _context.next = 20;
+                    break;
+
+                case 20:
+                    ;
+                    _context.next = 26;
+                    break;
+
+                case 23:
+                    _context.prev = 23;
                     _context.t0 = _context['catch'](1);
 
                     console.log(_context.t0);
                     //yield put({type: "USER_FETCH_FAILED", message: e.message});
 
-                case 16:
+                case 26:
                     ;
 
-                case 17:
+                case 27:
                 case 'end':
                     return _context.stop();
             }
         }
-    }, _marked, this, [[1, 13]]);
+    }, _marked, this, [[1, 23]]);
 };
 
 exports.default = fetchSaveTaskData;
+
+/***/ }),
+/* 701 */,
+/* 702 */,
+/* 703 */,
+/* 704 */,
+/* 705 */,
+/* 706 */,
+/* 707 */,
+/* 708 */,
+/* 709 */,
+/* 710 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var path = exports.path = 'http://localhost:3000/';
 
 /***/ })
 /******/ ]);

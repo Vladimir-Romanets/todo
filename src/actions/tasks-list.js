@@ -1,7 +1,8 @@
 import * as types from '../const/ActionTypes';
 
-export const fetchGetTaskList = () => ({
-    type: types.FETCH_GET_TASKS_LIST
+export const fetchGetTaskList = (data) => ({
+    type: types.FETCH_GET_TASKS_LIST,
+    data
 });
 
 export const setTasksList = ( tasksList ) => ({
@@ -9,14 +10,14 @@ export const setTasksList = ( tasksList ) => ({
     tasksList
 });
 
-export const fetchStatusChange = ( options ) => ({
+export const fetchStatusChange = ( data ) => ({
     type: types.FETCH_STATUS_CHANGE,
-    options
+    data
 });
 
-export const statusChangedSuccessful = ( options ) => ({
+export const statusChangedSuccessful = ( data ) => ({
     type: types.STATUS_CHANGED_SUCCESSFUL,
-    options
+    data
 });
 
 export const fetchSaveTaskData = ( data ) => ({
@@ -29,6 +30,12 @@ export const saveTaskDataSuccessful = ( data, status ) => ({
     data,
     status
 });
+
+export const saveNewTaskDataSuccessful = ( data, status ) => ({
+    type: types.SAVE_NEW_TASK_DATA_SUCCESSFUL,
+    data,
+    status
+})
 
 export const addTask = ( status ) => ({
     type: types.ADD_TASK,

@@ -1,22 +1,18 @@
 import { call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import actions from '../../actions';
+import { path } from '../config';
 
-function* fetchStatusChange({ options }) {
+function* fetchStatusChange({ data }) {
 
-    console.log('HelloSaga fetchStatusChange', options);
+    console.log('HelloSaga fetchStatusChange', data);
 
     try {
         //Делаем запрос на сервер для изменения статуса таски
-        //const response = (yield call(axios.post, URL_TO_API, val)).data;
+        const { data: response } = yield call(axios.post, `${path}changestatus`, data);
 
-        //Получаем от сервера ответ
-        const response = true;
-
-        if ( response ){
-            yield put(actions.statusChangedSuccessful(options));
-        } else {
-
+        if ( response.status ){
+            yield put(actions.statusChangedSuccessful(response.data));
         };
     } catch (e) {
         console.log(e);

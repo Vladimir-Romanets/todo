@@ -1,38 +1,16 @@
 import { call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import actions from '../../actions';
+import { path } from '../config';
 
-function* fetchGetTasksList() {
+function* fetchGetTasksList({ data }) {
 
-    console.log('HelloSaga fetchGetTasksList');
+    //console.log('HelloSaga fetchGetTasksList', data);
 
     try {
         //Делаем запрос на сервер для получения списка тасков
-        //const response = (yield call(axios.post, URL_TO_API, val)).data;
-
-        //Получаем от сервера ответ
-        const response = {
-            newtasks: [
-                {
-                    id: 123,
-                    title: 'Cоздание формы авторизации',
-                    description: 'Форма авторизации должна иметь поля: логин, пароль, кнопка сабмит'
-                },
-                {
-                    id: 124,
-                    title: 'Cоздание карточки Задачи',
-                    description: 'Карточка должна иметь поля: название, описание задачи.....'
-                }
-            ],
-            inprogress: [],
-            completed: [
-                {
-                    id: 1,
-                    title: 'Tест',
-                    description: 'Тест.....'
-                }
-            ]
-        };
+        const { data: response } = yield call(axios.post, `${path}gettasklist`, data);
+        console.log('HelloSaga fetchGetTasksList', response);
 
         yield put( actions.setTasksList(response) );
     } catch (e) {

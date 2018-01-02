@@ -12,7 +12,7 @@ export default function DashBoard({ tasksList, ...rest }){
 
     return (
         <div>
-            <ManageToolbar fetchLogout={ rest.fetchLogout }/>
+            <ManageToolbar fetchLogout={ rest.fetchLogout } login={ rest.login }/>
 
             <div className="dashboard">
                 <TaskList

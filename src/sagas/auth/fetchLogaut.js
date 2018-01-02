@@ -1,17 +1,18 @@
 import { call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import actions from '../../actions';
+import { path } from '../config';
 
-function* fetchLogaut(){
+function* fetchLogaut({ data }){
 
     console.log('HelloSaga fetchLogaut');
 
 	try {
         //Отправляем запрос на сервер для разлогирования
-		//const response = (yield call(axios.post, URL_TO_API, val)).data;
+		const { data: response } = yield call(axios.post, `${path}logout`, data);
 
 		//Получаем от сервера ответ при успешной авторизации
-		console.log('logout');
+		console.log('logout', response);
 	} catch (e) {
 		console.log(e);
 		//yield put({type: "USER_FETCH_FAILED", message: e.message});

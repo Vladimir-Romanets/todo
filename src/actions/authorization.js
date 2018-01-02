@@ -10,6 +10,7 @@ export const authResponse = ( authData ) => ({
     authData
 });
 
-export const fetchLogout = () => ({
-    type: types.FETCH_LOGOUT
+export const fetchLogout = ( data ) => ({
+    type: types.FETCH_LOGOUT,
+    data
 });

@@ -2,6 +2,7 @@ import * as types from '../const/ActionTypes';
 
 const initialState = {
     auth: false,
+    login: null,
     token: null
 };
 
