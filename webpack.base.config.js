@@ -1,4 +1,3 @@
-import Config from 'webpack-config';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import path from 'path';
@@ -9,20 +8,26 @@ module.exports = {
         path: path.resolve(__dirname, 'public/js/')
     },
     module: {
-        loaders: [
+        rules: [
+            {
+                enforce: 'pre',
+                test: /\.js$/,
+                loaders: ['eslint-loader'],
+                exclude: [/node_modules/],
+            },
             {
                 test: /\.js/,
                 exclude: [/node_modules/],
-                loader: "babel-loader",
+                loader: 'babel-loader',
                 query: {
-                    presets: ['env', 'react', 'stage-0']
-                }
+                    presets: ['env', 'react', 'stage-0'],
+                },
             },
             {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: "css-loader"
+                    fallback: 'style-loader',
+                    use: 'css-loader'
                 })
             },
             {
@@ -37,6 +42,6 @@ module.exports = {
             filename: '../index.html',
             inject: 'body'
         }),
-        new ExtractTextPlugin('../css/styles.css')
+        new ExtractTextPlugin('../css/styles.css'),
     ]
 };

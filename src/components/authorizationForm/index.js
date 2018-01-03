@@ -6,32 +6,32 @@ import './style.css';
 let AuthorizationForm = ( props ) => {
     const { handleSubmit } = props;
     return (
-        <form onSubmit={ handleSubmit } className="auth-form">
+        <form onSubmit={ handleSubmit } className='auth-form'>
 
-            <div className="auth-form__row">
+            <div className='auth-form__row'>
                 <Field
-                    component="input"
-                    type="text"
-                    name="login"
-                    id="login"
+                    component='input'
+                    type='text'
+                    name='login'
+                    id='login'
                     required
                 />
-                <label htmlFor="login">Login</label>
+                <label htmlFor='login'>Login</label>
             </div>
 
-            <div className="auth-form__row">
+            <div className='auth-form__row'>
                 <Field
-                    component="input"
-                    type="password"
-                    name="password"
-                    id="password"
+                    component='input'
+                    type='password'
+                    name='password'
+                    id='password'
                     required
                 />
-                <label htmlFor="password">Password</label>
+                <label htmlFor='password'>Password</label>
             </div>
 
-            <div className="auth-form__row">
-                <button type="submit">Sign in</button>
+            <div className='auth-form__row'>
+                <button type='submit'>Sign in</button>
             </div>
 
         </form>

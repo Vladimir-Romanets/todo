@@ -1,4 +1,4 @@
-import * as types from '../const/ActionTypes';
+import types from '../const';
 
 export const fetchAuthorizationData = ( data ) => ({
     type: types.FETCH_AUTHORIZATION_DATA,

@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import { AuthorizationContainer, DashboardContainer } from './containers';
 
-export const App = () => {
-	return (
-		<div className="container">
-			<AuthorizationContainer />
-			<DashboardContainer />
+const App = (props) => (
+		<div className='container'>
+			{ props.auth ? <DashboardContainer /> : <AuthorizationContainer /> }
 		</div>
-	)
-};
+);
+
+const mapStateToProps = (state) => ({ ...state.reducerAuthorization });
+
+export default connect(mapStateToProps)(App);

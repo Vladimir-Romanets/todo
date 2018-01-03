@@ -1,0 +1,69 @@
+.dashboard__col{
+    padding: 10px 20px;
+    flex-basis: 33.33%;
+    box-sizing: border-box;
+}
+.col__title{
+    margin: 0 auto 20px;
+    text-align: center;
+    font-weight: 800;
+    line-height: 2rem;
+}
+.col__add-task{
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s linear;
+    font-size: 0;
+}
+.col__add-task:hover{
+    background: rgba(45,45,45,.3);
+}
+.add-task__ico{
+   width: 25px;
+   display: inline-block;
+}
+
+.tasks-list{
+    padding: 0;
+    list-style: none;
+}
+.task{
+    margin: 20px auto;
+    padding: 20px 5px;
+    border: 1px solid #000
+}
+
+input,
+textarea{
+    outline: none;
+    box-sizing: border-box;
+    height: auto;
+    font-family: Roboto;
+}
+.task__row + .task__row{
+    margin: 10px 0 0;
+}
+.task__row [name="title"],
+.task__row [name="description"]{
+    padding: 2px 5px;
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+.task__row [name="description"]{
+    min-height: 6rem;
+    resize: none;
+}
+.task__row .mng{
+    font-size: 0;
+}
+.mng__item{
+    margin: 0 10px;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    overflow: hidden;
+    cursor: pointer;
+}

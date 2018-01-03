@@ -4,5 +4,4 @@ environment.setAll({
     env: () => process.env.NODE_ENV
 });
 
-console.log(process.env.NODE_ENV)
 export default new Config().extend('webpack.[env].config.js');

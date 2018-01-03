@@ -1,12 +1,10 @@
 import { takeEvery } from 'redux-saga/effects';
-import * as types from '../../const/ActionTypes';
+import types from '../../const';
 import fetchAuthData from './fetchAuthData';
 import fetchLogaut from './fetchLogaut';
 
 
-function* auth() {
+export default function* auth() {
 	yield takeEvery(types.FETCH_AUTHORIZATION_DATA, fetchAuthData);
 	yield takeEvery(types.FETCH_LOGOUT, fetchLogaut);
-};
-
-export default auth;
+}

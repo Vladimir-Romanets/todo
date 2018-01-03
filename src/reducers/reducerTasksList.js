@@ -1,4 +1,4 @@
-import * as types from '../const/ActionTypes';
+import types from '../const';
 
 const initialState = {
     newtasks: [],
@@ -47,7 +47,9 @@ const reducerTasksList = (state = initialState, action) => {
                 description: ''
             });
             return newState;
-        }       
+        }
+        case types.FETCH_LOGOUT:
+            return initialState;
         default:
             return state;
     }

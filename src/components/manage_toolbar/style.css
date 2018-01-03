@@ -1,19 +1,26 @@
-.mng-btn{
+.toolbar{
     padding: 10px;
     font-size: 0;
     text-align: right;
+    background: rgba(97,97,97, .4);
+    border-bottom: 1px solid #252525;
 }
-.mng-btn__item{
+.toolbar__item{
     margin: 0 10px;
     display: inline-block;
     width: 30px;
     height: 30px;
     overflow: hidden;
     cursor: pointer;
+    vertical-align: middle;
 }
-.mng-btn__item:first-child{
-    margin-left: 0;
+.toolbar__item:first-child{
+    margin: 0 10px 0 0;
+    float: left;
+    font-size: 20px;
+    width: auto;
+    cursor: default;
 }
-.mng-btn__item:last-child{
+.toolbar__item:last-child{
     margin-right: 0;
 }

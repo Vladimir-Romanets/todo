@@ -4,9 +4,6 @@ import actions from '../../actions';
 import { path } from '../config';
 
 function* fetchAuthData({ data }){
-
-	console.log('HelloSaga fetchAuthData', data);
-
 	try {
 		//Передаем логин/пароль на сервер для авторизации
 		const { data: response } = yield call(axios.post, `${path}auth`, data);

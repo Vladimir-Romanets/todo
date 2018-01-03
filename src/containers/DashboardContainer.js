@@ -1,13 +1,6 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import actions from '../actions';
 import { DashBoard } from '../components';
-
-class DashboardContainer extends Component {
-	render(){
-        return this.props.auth && <DashBoard { ...this.props } />
-	}
-};
 
 const mapStateToProps = ( state ) => ({
 	auth: state.reducerAuthorization.auth,
@@ -22,4 +15,4 @@ const mapDispatchToProps = ( dispatch ) => ({
 	fetchLogout: (data) => dispatch( actions.fetchLogout(data) )
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);
