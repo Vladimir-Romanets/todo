@@ -10,7 +10,11 @@
 	],
 	"rules": {
 		"no-debugger": 1,
+<<<<<<< HEAD
 		"no-console": 0,
+=======
+		"no-console": 1,
+>>>>>>> 6909c5482a4c8cc99b1cb0e7fafb0dec306ef6cd
 		"new-cap": 0,
 		"strict": 0,
 		"no-extra-semi": 0,

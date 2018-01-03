@@ -44221,6 +44221,7 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 var Tasks = function Tasks(_ref) {
     var title = _ref.title,
         rest = _objectWithoutProperties(_ref, ['title']);
+<<<<<<< HEAD
 
     var addIsActive = !rest.list.some(function (el) {
         return el.id === rest.currentState;
@@ -44250,6 +44251,37 @@ var Tasks = function Tasks(_ref) {
     );
 };
 
+=======
+
+    var addIsActive = !rest.list.some(function (el) {
+        return el.id === rest.currentState;
+    });
+
+    return _react2.default.createElement(
+        'div',
+        { className: 'dashboard__col' },
+        _react2.default.createElement(
+            'div',
+            { className: 'col__title' },
+            title || 'Сolumn name'
+        ),
+        _react2.default.createElement(
+            'div',
+            { className: 'col__add-task',
+                title: 'Add task',
+                onClick: addIsActive ? function () {
+                    return rest.addTask(rest.currentState);
+                } : null },
+            _react2.default.createElement('img', { src: './images/add.svg',
+                alt: 'Add task',
+                className: 'add-task__ico'
+            })
+        ),
+        _react2.default.createElement(_task_list2.default, rest)
+    );
+};
+
+>>>>>>> 6909c5482a4c8cc99b1cb0e7fafb0dec306ef6cd
 exports.default = Tasks;
 
 /***/ }),
@@ -44423,6 +44455,7 @@ function ManageToolbar(_ref) {
     return _react2.default.createElement(
         'ul',
         { className: 'toolbar' },
+<<<<<<< HEAD
         _react2.default.createElement(
             'li',
             { className: 'toolbar__item' },
@@ -44435,6 +44468,20 @@ function ManageToolbar(_ref) {
         ),
         _react2.default.createElement(
             'li',
+=======
+        _react2.default.createElement(
+            'li',
+            { className: 'toolbar__item' },
+            'Username: ',
+            _react2.default.createElement(
+                'b',
+                null,
+                login
+            )
+        ),
+        _react2.default.createElement(
+            'li',
+>>>>>>> 6909c5482a4c8cc99b1cb0e7fafb0dec306ef6cd
             { className: 'toolbar__item', onClick: function onClick() {
                     return fetchLogout({ login: login });
                 } },
