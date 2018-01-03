@@ -1,4 +1,4 @@
-import * as types from '../const/ActionTypes';
+import types from '../const';
 
 export const fetchGetTaskList = (data) => ({
     type: types.FETCH_GET_TASKS_LIST,

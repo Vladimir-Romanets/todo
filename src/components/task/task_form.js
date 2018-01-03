@@ -1,8 +1,5 @@
-import React, { Component } from 'react';
-import { Field, reduxForm, initialize } from 'redux-form';
-import { connect } from 'react-redux';
-
-import './style.css';
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
 
 const TaskForm = (props) => {
     const option = ['newtasks', 'inprogress', 'completed'].map( (el) => 
@@ -15,15 +12,15 @@ const TaskForm = (props) => {
 
     return(
         <form onSubmit={ props.handleSubmit }>
-            <div className="task__row mng">
-                <i className="mng__item" onClick={ props.handleSubmit } >
-                    <img src="./images/save.svg" alt="save" title="Save" />
+            <div className='task__row mng'>
+                <i className='mng__item' onClick={ props.handleSubmit } >
+                    <img src='./images/save.svg' alt='save' title='Save' />
                 </i>
             </div>
-            <div className="task__row">
+            <div className='task__row'>
                 <Field
-                    component="select"
-                    name="currentState"
+                    component='select'
+                    name='currentState'
                     disabled={ !Number(props.form) }
                     onChange={ (e, newState, prevState) => props.fetchStatusChange({
                         taskID: props.initialValues.id,
@@ -33,17 +30,17 @@ const TaskForm = (props) => {
                         { option }
                 </Field>
             </div>
-            <div className="task__row">
+            <div className='task__row'>
                 <Field
-                    component="input"
-                    type="text"
-                    name="title"
+                    component='input'
+                    type='text'
+                    name='title'
                 />
             </div>
-            <div className="task__row">
+            <div className='task__row'>
                 <Field
-                    component="textarea"
-                    name="description"
+                    component='textarea'
+                    name='description'
                 />
             </div>
         </form>

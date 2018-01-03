@@ -1,5 +1,5 @@
 import React from 'react';
-import TaskList from '../task_list';
+import Tasks from '../task';
 import ManageToolbar from '../manage_toolbar';
 import './style.css';
 
@@ -14,27 +14,27 @@ export default function DashBoard({ tasksList, ...rest }){
         <div>
             <ManageToolbar fetchLogout={ rest.fetchLogout } login={ rest.login }/>
 
-            <div className="dashboard">
-                <TaskList
+            <div className='dashboard'>
+                <Tasks
                     list={ newtasks }
-                    title="New tasks"
-                    currentState="newtasks"
+                    title='New tasks'
+                    currentState='newtasks'
                     fetchStatusChange={ rest.fetchStatusChange }
                     fetchSaveTaskData={ rest.fetchSaveTaskData }
                     addTask={ rest.addTask }
                 />
-                <TaskList
+                <Tasks
                     list={ inprogress }
-                    title="Tasks in the process"
-                    currentState="inprogress"
+                    title='Tasks in the process'
+                    currentState='inprogress'
                     fetchStatusChange={ rest.fetchStatusChange }
                     fetchSaveTaskData={ rest.fetchSaveTaskData }
                     addTask={ rest.addTask }
                 />
-                <TaskList
+                <Tasks
                     list={ completed }
-                    title="Complited tasks"
-                    currentState="completed"
+                    title='Complited tasks'
+                    currentState='completed'
                     fetchStatusChange={ rest.fetchStatusChange }
                     fetchSaveTaskData={ rest.fetchSaveTaskData }
                     addTask={ rest.addTask }

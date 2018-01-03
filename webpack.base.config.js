@@ -9,11 +9,17 @@ module.exports = {
         path: path.resolve(__dirname, 'public/js/')
     },
     module: {
-        loaders: [
+        rules: [
+            {
+                enforce: 'pre',
+                test: /\.js$/,
+                loaders: ['eslint-loader'],
+                exclude: [/node_modules/],
+            },
             {
                 test: /\.js/,
                 exclude: [/node_modules/],
-                loader: "babel-loader",
+                loader: 'babel-loader',
                 query: {
                     presets: ['env', 'react', 'stage-0']
                 }
@@ -21,8 +27,8 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: "css-loader"
+                    fallback: 'style-loader',
+                    use: 'css-loader'
                 })
             },
             {

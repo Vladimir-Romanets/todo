@@ -1,4 +1,4 @@
-import * as types from '../const/ActionTypes';
+import types from '../const';
 
 const initialState = {
     auth: false,

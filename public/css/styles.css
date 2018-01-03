@@ -37,7 +37,43 @@
     top: -2px;
     left: 6px;
     font-size: .8rem;
-}input,
+}.dashboard__col{
+    padding: 10px 20px;
+    flex-basis: 33.33%;
+    box-sizing: border-box;
+}
+.col__title{
+    margin: 0 auto 20px;
+    text-align: center;
+    font-weight: 800;
+    line-height: 2rem;
+}
+.col__add-task{
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s linear;
+    font-size: 0;
+}
+.col__add-task:hover{
+    background: rgba(45,45,45,.3);
+}
+.add-task__ico{
+   width: 25px;
+   display: inline-block;
+}
+
+.tasks-list{
+    padding: 0;
+    list-style: none;
+}
+.task{
+    margin: 20px auto;
+    padding: 20px 5px;
+    border: 1px solid #000
+}
+
+input,
 textarea{
     outline: none;
     box-sizing: border-box;
@@ -69,53 +105,30 @@ textarea{
     height: 25px;
     overflow: hidden;
     cursor: pointer;
-}.dashboard__col{
-    padding: 10px 20px;
-    list-style: none;
-    flex-basis: 33.33%;
-    box-sizing: border-box;
-}
-.col__title{
-    margin: 0 auto 20px;
-    text-align: center;
-    font-weight: 800;
-    line-height: 2rem;
-}
-.col__add-task{
-    padding: 5px;
-    text-align: center;
-    cursor: pointer;
-    transition: all .3s linear;
-    font-size: 0;
-}
-.col__add-task:hover{
-    background: rgba(45,45,45,.3);
-}
-.add-task__ico{
-   width: 25px;
-   display: inline-block;
-}
-.task{
-    margin: 20px auto;
-    padding: 20px 5px;
-    border: 1px solid #000
-}.mng-btn{
+}.toolbar{
     padding: 10px;
     font-size: 0;
     text-align: right;
+    background: rgba(97,97,97, .4);
+    border-bottom: 1px solid #252525;
 }
-.mng-btn__item{
+.toolbar__item{
     margin: 0 10px;
     display: inline-block;
     width: 30px;
     height: 30px;
     overflow: hidden;
     cursor: pointer;
+    vertical-align: middle;
 }
-.mng-btn__item:first-child{
-    margin-left: 0;
+.toolbar__item:first-child{
+    margin: 0 10px 0 0;
+    float: left;
+    font-size: 20px;
+    width: auto;
+    cursor: default;
 }
-.mng-btn__item:last-child{
+.toolbar__item:last-child{
     margin-right: 0;
 }.dashboard{
     display: flex;

@@ -27,7 +27,7 @@ app.use(logger())
         .post('/logout', ( ctx ) => {
             const { login } = ctx.request.body;
             ctx.body = {
-                message: `Пользователь ${login} успешно разлогинелся`
+                message: `Пользователь ${login} успешно разлогинился`
             };
         })
         .post('/gettasklist', ( ctx ) => {
