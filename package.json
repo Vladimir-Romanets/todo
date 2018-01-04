@@ -4,12 +4,9 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
+    "start": "export NODE_ENV=dev && webpack-dev-server",
     "server": "nodemon server/ --exec babel-node",
-<<<<<<< HEAD
     "dev": "export NODE_ENV=dev && webpack --w",
-=======
-    "dev": "export NODE_ENV=dev&& webpack --w",
->>>>>>> 6909c5482a4c8cc99b1cb0e7fafb0dec306ef6cd
     "prod": "export NODE_ENV=prod && webpack --progress"
   },
   "author": "",
@@ -50,6 +47,7 @@
     "html-webpack-plugin": "^2.30.1",
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0",
-    "webpack-config": "^7.5.0"
+    "webpack-config": "^7.5.0",
+    "webpack-dev-server": "^2.9.7"
   }
 }
