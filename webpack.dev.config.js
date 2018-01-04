@@ -3,6 +3,7 @@ import path from 'path';
 
 export default new Config().extend('webpack.base.config.js').merge({
     output: {
+        publicPath: 'js',
         filename: 'bundle.js'
     },
     devServer: {
@@ -10,7 +11,7 @@ export default new Config().extend('webpack.base.config.js').merge({
         openPage: './',
         historyApiFallback: true,
         port: 3001,
-        open: true,
-        inline: true
+        inline: true,
+        open: true
     }
 });

@@ -6,7 +6,6 @@
   "scripts": {
     "start": "export NODE_ENV=dev && webpack-dev-server",
     "server": "nodemon server/ --exec babel-node",
-    "dev": "export NODE_ENV=dev && webpack --w",
     "prod": "export NODE_ENV=prod && webpack --progress"
   },
   "author": "",
