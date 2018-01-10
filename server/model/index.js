@@ -52,6 +52,7 @@ export const getAllTasks = user_id => new Promise( (resolve, reject) => {
 });
 
 export const chgTaskStatus = data => new Promise( resolve => {
+    console.log(data);
     const sql = `
         INSERT INTO ${data.newState} (id,user_id,title,description)
         SELECT * FROM ${data.prevState} WHERE user_id=${data.user_id} AND id=${data.taskID};
@@ -60,10 +61,7 @@ export const chgTaskStatus = data => new Promise( resolve => {
     `;
     connection.query(sql, (err, result) => {
         if (err) throw new Error(err);
-        resolve({
-            status: true,
-            data
-        });
+        resolve({ data });
     });
 });
 

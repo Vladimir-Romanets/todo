@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { AuthorizationContainer, DashboardContainer } from './containers';
+import { AuthorizationContainer, DashboardContainer, PopupContainer } from './containers';
 
 const App = (props) => (
 		<div className='container'>
 			{ props.auth ? <DashboardContainer /> : <AuthorizationContainer /> }
+			<PopupContainer />
 		</div>
 );
 

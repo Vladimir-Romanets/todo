@@ -4,20 +4,16 @@ import actions from '../../actions';
 import { path } from '../config';
 
 function* fetchStatusChange({ data }) {
-
-    console.log('HelloSaga fetchStatusChange', data);
-
     try {
-        //Делаем запрос на сервер для изменения статуса таски
         const { data: response } = yield call(axios.post, `${path}changestatus`, data);
-
-        if ( response.status ){
-            yield put(actions.statusChangedSuccessful(response.data));
-        };
+        yield put(actions.statusChangedSuccessful(response.data));
     } catch (e) {
-        console.log(e);
-        //yield put({type: "USER_FETCH_FAILED", message: e.message});
-    };
+        console.log('Ошибка сервера', e);
+        yield put(actions.popupMessageSet({
+            message: 'Ошибка соединения. \n Попробуйте позже.',
+            timeout: 3000
+        })
+    )};
 };
 
 export default fetchStatusChange;

@@ -4,19 +4,16 @@ import actions from '../../actions';
 import { path } from '../config';
 
 function* fetchGetTasksList({ data }) {
-
-    //console.log('HelloSaga fetchGetTasksList', data);
-
     try {
-        //Делаем запрос на сервер для получения списка тасков
         const { data: response } = yield call(axios.post, `${path}gettasklist`, data);
-        console.log('HelloSaga fetchGetTasksList', response);
-
         yield put( actions.setTasksList(response) );
     } catch (e) {
-        console.log(e);
-        //yield put({type: "USER_FETCH_FAILED", message: e.message});
-    };
+        console.log('Ошибка сервера', e);
+        yield put(actions.popupMessageSet({
+            message: 'Ошибка соединения. \n Попробуйте позже.',
+            timeout: 3000
+        })
+    )};
 };
 
 export default fetchGetTasksList;

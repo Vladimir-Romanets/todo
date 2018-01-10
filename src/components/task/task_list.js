@@ -11,7 +11,7 @@ export default function TaskList({list, currentState, user_id, ...rest }){
                         <TaskForm
                             form={ `${el.id}` }
                             initialValues={{ ...el, currentState }}
-                            user_id={ rest.user_id }
+                            user_id={ user_id }
                             fetchStatusChange={ rest.fetchStatusChange }
                             onSubmit={ (data) => rest.fetchSaveTaskData({...data, user_id}) }
                         />
