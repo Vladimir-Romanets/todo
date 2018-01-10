@@ -1,6 +1,5 @@
-import { call, put } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
 import axios from 'axios';
-import actions from '../../actions';
 import { path } from '../config';
 
 function* fetchLogaut({ data }){

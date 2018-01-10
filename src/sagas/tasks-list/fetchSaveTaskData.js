@@ -10,18 +10,11 @@ function* fetchSaveTaskData({ data }) {
     try {
         //Делаем запрос на сервер для сохранения данных таски
         const { data: response } = yield call(axios.post, `${path}savetaskdata`, data);
-
-        if ( response.saveStatus ) {
-            const status = response.currentState;
-            delete response.currentState;
-            delete response.saveStatus;
-            if ( Number(data.id) ){
-                yield put(actions.saveTaskDataSuccessful(response, status));
-            } else {
-                yield put(actions.saveNewTaskDataSuccessful(response, status));
-            };
+        const status = data.currentState;
+        if ( Number(data.id) ){
+            yield put(actions.saveTaskDataSuccessful(response, status));
         } else {
-
+            yield put(actions.saveNewTaskDataSuccessful(response, status));
         };
     } catch (e) {
         console.log(e);

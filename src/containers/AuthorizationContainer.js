@@ -4,11 +4,19 @@ import actions from '../actions';
 import { AuthorizationForm } from '../components';
 
 const AuthorizationContainer = (props) => (
-	<AuthorizationForm onSubmit={ props.fetchAuthorizationData } />
+	<AuthorizationForm
+		parentClass={ !props.auth && props.token === false ? 'auth-err' : '' }
+		onSubmit={ props.fetchAuthorizationData }
+	/>
 );
 
-const mapDispatchToProps = ( dispatch ) => ({
+const mapStateToProps = state => ({
+	auth: state.reducerAuthorization.auth,
+	token: state.reducerAuthorization.token
+})
+
+const mapDispatchToProps = dispatch => ({
 	fetchAuthorizationData: (data) => dispatch( actions.fetchAuthorizationData(data) )
 });
 
-export default connect(null, mapDispatchToProps)(AuthorizationContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorizationContainer);

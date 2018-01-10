@@ -1,9 +1,9 @@
 import types from '../const';
 
 const initialState = {
-    newtasks: [],
-    inprogress: [],
-    completed: []
+    newTasks: [],
+    inprogressTasks: [],
+    completedTasks: []
 }; 
 
 const reducerTasksList = (state = initialState, action) => {

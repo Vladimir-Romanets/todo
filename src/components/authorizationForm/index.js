@@ -4,9 +4,9 @@ import { Field, reduxForm } from 'redux-form';
 import './style.css';
 
 let AuthorizationForm = ( props ) => {
-    const { handleSubmit } = props;
+    const { handleSubmit, parentClass } = props;
     return (
-        <form onSubmit={ handleSubmit } className='auth-form'>
+        <form onSubmit={ handleSubmit } className={ `auth-form ${parentClass}` } >
 
             <div className='auth-form__row'>
                 <Field

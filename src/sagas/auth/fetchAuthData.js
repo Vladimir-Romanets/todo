@@ -7,13 +7,12 @@ function* fetchAuthData({ data }){
 	try {
 		//Передаем логин/пароль на сервер для авторизации
 		const { data: response } = yield call(axios.post, `${path}auth`, data);
-		console.log(response);
-
+		yield put(actions.authResponse(response));
+		
 		if ( response.auth ) {
-			yield put(actions.authResponse(response) );
-			yield put(actions.fetchGetTaskList({
+			yield put( actions.fetchGetTaskList({
 				token: response.token,
-				login: response.login
+				user_id: response.user_id
 			}) );
 		}
 	} catch (e) {

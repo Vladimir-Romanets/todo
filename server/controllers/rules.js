@@ -18,9 +18,9 @@ const logout = ctx => {
 };
 
 async function getTasklist (ctx) {
-    const { login } = ctx.request.body;
+    const { user_id } = ctx.request.body;
     try {
-        ctx.body = await getAllTasks(login);
+        ctx.body = await getAllTasks(user_id);
     } catch(e) {
         console.log(e);
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 const TaskForm = (props) => {
-    const option = ['newtasks', 'inprogress', 'completed'].map( (el) => 
+    const option = ['newTasks', 'inprogressTasks', 'completedTasks'].map( (el) => 
         <option
             key = { el }
             value = { el }>
@@ -24,6 +24,7 @@ const TaskForm = (props) => {
                     disabled={ !Number(props.form) }
                     onChange={ (e, newState, prevState) => props.fetchStatusChange({
                         taskID: props.initialValues.id,
+                        user_id: props.user_id,
                         newState,
                         prevState
                     })} >

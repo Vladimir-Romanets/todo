@@ -32,6 +32,9 @@
     z-index: 1;
     background: transparent;
 }
+.auth-err .auth-form__row input{
+    border-color: #f00;
+}
 .auth-form__row input:focus + label,
 .auth-form__row input:not(:invalid) + label{
     top: -2px;
