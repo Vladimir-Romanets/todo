@@ -30,7 +30,7 @@
 }
 .task{
     margin: 20px auto;
-    padding: 20px 5px;
+    padding: 20px 10px;
     border: 1px solid #000
 }
 
@@ -62,8 +62,8 @@ textarea{
 .mng__item{
     margin: 0 10px;
     display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 18px;
+    height: 18px;
     overflow: hidden;
     cursor: pointer;
 }

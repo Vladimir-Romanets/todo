@@ -2,13 +2,18 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 const TaskForm = (props) => {
-    const option = ['newTasks', 'inprogressTasks', 'completedTasks'].map( (el) => 
-        <option
-            key = { el }
-            value = { el }>
-                { el }
-        </option>
-    );
+    const option = [
+        { newTasks: 'new' },
+        { inprogressTasks: 'inprogress' },
+        { completedTasks: 'completed' }
+    ].map( el => {
+        const key = Object.keys(el);
+        return(
+            <option key = { key } value = { key }>
+                { el[key] }
+            </option>
+        )
+    });
 
     return(
         <form onSubmit={ props.handleSubmit }>

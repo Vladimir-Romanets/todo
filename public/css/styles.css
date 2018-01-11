@@ -34,12 +34,28 @@
 }
 .auth-err .auth-form__row input{
     border-color: #f00;
+    -webkit-animation: move .5s 1;
+    animation: move .35s 1;
 }
 .auth-form__row input:focus + label,
 .auth-form__row input:not(:invalid) + label{
     top: -2px;
     left: 6px;
     font-size: .8rem;
+}
+@-webkit-keyframes move {
+    0%   {left: 0px}
+    20%  {left: -10px}
+    60%  {left: 10px}
+    90%  {left: -5px}
+    100% {left: 0px}
+}
+@keyframes move {
+    0%   {left: 0px}
+    20%  {left: -10px}
+    60%  {left: 10px}
+    90%  {left: -5px}
+    100% {left: 0px}
 }.dashboard__col{
     padding: 10px 20px;
     flex-basis: 33.33%;
@@ -72,7 +88,7 @@
 }
 .task{
     margin: 20px auto;
-    padding: 20px 5px;
+    padding: 20px 10px;
     border: 1px solid #000
 }
 
@@ -104,8 +120,8 @@ textarea{
 .mng__item{
     margin: 0 10px;
     display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 18px;
+    height: 18px;
     overflow: hidden;
     cursor: pointer;
 }.toolbar{

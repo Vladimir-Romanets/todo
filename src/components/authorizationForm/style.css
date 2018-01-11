@@ -34,10 +34,26 @@
 }
 .auth-err .auth-form__row input{
     border-color: #f00;
+    -webkit-animation: move .5s 1;
+    animation: move .35s 1;
 }
 .auth-form__row input:focus + label,
 .auth-form__row input:not(:invalid) + label{
     top: -2px;
     left: 6px;
     font-size: .8rem;
+}
+@-webkit-keyframes move {
+    0%   {left: 0px}
+    20%  {left: -10px}
+    60%  {left: 10px}
+    90%  {left: -5px}
+    100% {left: 0px}
+}
+@keyframes move {
+    0%   {left: 0px}
+    20%  {left: -10px}
+    60%  {left: 10px}
+    90%  {left: -5px}
+    100% {left: 0px}
 }
