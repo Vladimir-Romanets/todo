@@ -1,12 +1,7 @@
 import mysql from 'mysql';
+import { modelConf } from '../config';
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'todo',
-    multipleStatements: true
-});
+const connection = mysql.createConnection(modelConf);
 
 connection.connect( err => {
     err ?
@@ -14,7 +9,7 @@ connection.connect( err => {
     console.log('connected as id ' + connection.threadId);
 });
 
-const getAllTasks = user_id => new Promise( resolve => {
+const getAllTasks = ({ user_id }) => new Promise( resolve => {
     const sql = `
         SELECT * FROM newTasks WHERE user_id='${user_id}';
         SELECT * FROM inprogressTasks WHERE user_id='${user_id}';

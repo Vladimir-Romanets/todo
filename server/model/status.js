@@ -1,12 +1,7 @@
 import mysql from 'mysql';
+import { modelConf } from '../config';
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'todo',
-    multipleStatements: true
-});
+const connection = mysql.createConnection(modelConf);
 
 connection.connect( err => {
     err ?

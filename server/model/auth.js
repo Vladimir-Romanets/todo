@@ -1,12 +1,8 @@
 import mysql from 'mysql';
+import { sign } from 'jsonwebtoken';
+import { modelConf, SECRET } from '../config';
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'todo',
-    multipleStatements: true
-});
+const connection = mysql.createConnection(modelConf);
 
 connection.connect( err => {
     err ?
@@ -20,15 +16,12 @@ const authorization = ({login, password}) => new Promise( resolve => {
         if (err) throw new Error(err);
         const response = ( result === undefined ) ?
             {
-                auth: false,
-                login: null,
-                user_id: null,
-                token: false
+                auth: false
             } : {
                 auth: true,
                 login: result.username,
                 user_id: result.id,
-                token: '31cc1f0ca737a62b1f9c35154a1cdb7a'
+                token: sign(login, SECRET)
             };
         resolve(response);
     });

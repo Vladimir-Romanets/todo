@@ -1,5 +1,6 @@
 import Router from 'koa-router';
 import { authorization, getAllTasks, chgTaskStatus, saveTaskData } from '../model';
+import { verifyJWT } from '../validators';
 
 async function auth (ctx) {
     const data = ctx.request.body;
@@ -18,11 +19,13 @@ const logout = ctx => {
 };
 
 async function getTasklist (ctx) {
-    const { user_id } = ctx.request.body;
+    const data = ctx.request;
     try {
-        ctx.body = await getAllTasks(user_id);
+        verifyJWT(data.header);
+        ctx.body = await getAllTasks(data.body);
     } catch(e) {
         console.log(e);
+        ctx.throw(e.status, e.message);
     }
 };
 
@@ -48,7 +51,7 @@ export default function rotesRules() {
     const router = new Router();
     router.post('/auth', auth);
     router.post('/logout', logout);
-    router.post('/gettasklist', getTasklist);
+    router.post('/tasks', getTasklist);
     router.post('/savetaskdata', saveTask);
     router.post('/changestatus', changeTaskStatus);
     return router.routes();
