@@ -1,8 +1,12 @@
 import Router from 'koa-router';
-import rotesRules from './rules';
+import authorize from './authorize';
+import dashboard from './dashboard';
 
 export default function routesConfig() {
     const totalRouter = new Router();
-    totalRouter.use( rotesRules() );
+    totalRouter.use(
+        authorize(),
+        dashboard()
+    );
     return totalRouter.routes();
 };

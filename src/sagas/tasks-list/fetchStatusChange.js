@@ -7,9 +7,9 @@ function* fetchStatusChange({ data }) {
         const { data: response } = yield instance('changestatus', data);
         yield put( actions.statusChangedSuccessful(response.data) );
     } catch (e) {
-        console.log('Ошибка сервера', e);
+        const message = e.message || 'Ошибка соединения. \n Попробуйте позже.';
         yield put( actions.popupMessageSet({
-            message: 'Ошибка соединения. \n Попробуйте позже.',
+            message,
             timeout: 3000
         })
     )};

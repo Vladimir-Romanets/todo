@@ -7,8 +7,9 @@ function* fetchGetTasksList({ data }) {
         const { data: response } = yield instance('tasks', data);
         yield put( actions.setTasksList(response) );
     } catch (e) {
+        const message = e.message || 'Ошибка соединения. \n Попробуйте позже.';
         yield put( actions.popupMessageSet({
-            message: 'Ошибка соединения. \n Попробуйте позже.',
+            message,
             timeout: 3000
         })
     )};

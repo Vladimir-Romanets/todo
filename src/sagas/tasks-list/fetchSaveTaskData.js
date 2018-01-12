@@ -14,9 +14,9 @@ function* fetchSaveTaskData({ data }) {
         };
         
     } catch (e) {
-        console.log('Ошибка сервера', e);
-        yield put(actions.popupMessageSet({
-            message: 'Ошибка соединения. \n Попробуйте позже.',
+        const message = e.message || 'Ошибка соединения. \n Попробуйте позже.';
+        yield put( actions.popupMessageSet({
+            message,
             timeout: 3000
         })
     )};

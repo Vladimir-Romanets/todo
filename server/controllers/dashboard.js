@@ -1,31 +1,12 @@
 import Router from 'koa-router';
-import { authorization, getAllTasks, chgTaskStatus, saveTaskData } from '../model';
-import { verifyJWT } from '../validators';
-
-async function auth (ctx) {
-    const data = ctx.request.body;
-    try {
-        ctx.body = await authorization(data);
-    } catch(e) {
-        console.log(e);
-    }
-};
-
-const logout = ctx => {
-    const { login } = ctx.request.body;
-    ctx.body = {
-        message: `Пользователь ${login} успешно разлогинился`
-    };
-};
+import { getAllTasks, chgTaskStatus, saveTaskData } from '../model';
 
 async function getTasklist (ctx) {
     const data = ctx.request;
     try {
-        verifyJWT(data.header);
         ctx.body = await getAllTasks(data.body);
     } catch(e) {
         console.log(e);
-        ctx.throw(e.status, e.message);
     }
 };
 
@@ -47,10 +28,8 @@ const changeTaskStatus = async ctx => {
     }
 };
 
-export default function rotesRules() {
+export default function dashboard() {
     const router = new Router();
-    router.post('/auth', auth);
-    router.post('/logout', logout);
     router.post('/tasks', getTasklist);
     router.post('/savetaskdata', saveTask);
     router.post('/changestatus', changeTaskStatus);

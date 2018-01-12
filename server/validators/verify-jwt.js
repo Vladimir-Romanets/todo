@@ -1,18 +1,10 @@
 import { verify } from 'jsonwebtoken';
 import { SECRET } from '../config';
 
-function Exception (err, msg){
-    this.status = err;
-    this.message = msg;
-};
-
-const verifyJWT = ({ ['x-auth-token']: token }) => {
-    try {
-        verify(token, SECRET);
-        return true;
-    } catch({e}) {
-        throw new Exception(401, 'Uknown user');
-    }
+const verifyJWT = ( url, header ) => {
+    if ( url === '/auth' ) return true;
+    const token = header['x-auth-token'];
+    verify(token, SECRET);
 };
 
 export default verifyJWT;
