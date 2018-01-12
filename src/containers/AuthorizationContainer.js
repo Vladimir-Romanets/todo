@@ -5,7 +5,7 @@ import { AuthorizationForm } from '../components';
 
 const AuthorizationContainer = (props) => (
 	<AuthorizationForm
-		parentClass={ !props.auth && props.token === false ? 'auth-err' : '' }
+		parentClass={ props.auth === false ? 'auth-err' : '' }
 		onSubmit={ props.fetchAuthorizationData }
 	/>
 );

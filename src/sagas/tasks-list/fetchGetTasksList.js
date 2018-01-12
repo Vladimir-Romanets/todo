@@ -1,15 +1,13 @@
-import { call, put } from 'redux-saga/effects';
-import axios from 'axios';
+import { put } from 'redux-saga/effects';
+import instance from '../axios';
 import actions from '../../actions';
-import { path } from '../config';
 
 function* fetchGetTasksList({ data }) {
     try {
-        const { data: response } = yield call(axios.post, `${path}gettasklist`, data);
+        const { data: response } = yield instance('tasks', data);
         yield put( actions.setTasksList(response) );
     } catch (e) {
-        console.log('Ошибка сервера', e);
-        yield put(actions.popupMessageSet({
+        yield put( actions.popupMessageSet({
             message: 'Ошибка соединения. \n Попробуйте позже.',
             timeout: 3000
         })
