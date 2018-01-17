@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import { authorization } from '../model';
+import authorization from '../services/auth';
 
 async function auth (ctx) {
     const data = ctx.request.body;
@@ -20,6 +20,6 @@ const logout = ctx => {
 export default function authorize() {
     const router = new Router();
     router.post('/auth', auth);
-    router.post('/logout', logout);
+    //router.post('/logout', logout);
     return router.routes();
 };

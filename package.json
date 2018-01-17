@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "start": "export NODE_ENV=dev && webpack-dev-server",
-    "server": "nodemon server/ --exec babel-node",
+    "server": "nodemon ./server --exec babel-node",
+    "dev": "export NODE_ENV=dev && webpack --w",
     "prod": "export NODE_ENV=prod && webpack --progress"
   },
   "author": "",
@@ -20,7 +21,7 @@
     "koa-logger": "^3.1.0",
     "koa-router": "^7.3.0",
     "koa2-cors": "^2.0.5",
-    "mysql": "^2.15.0",
+    "mysql2": "^1.5.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
@@ -29,7 +30,9 @@
     "redux": "^3.7.2",
     "redux-form": "^7.2.0",
     "redux-logger": "^3.0.6",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "sequelize": "^4.31.2",
+    "sequelize-cli": "^3.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

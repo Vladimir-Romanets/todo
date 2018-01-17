@@ -4,14 +4,14 @@ import actions from '../../actions';
 
 function* fetchStatusChange({ data }) {
     try {
-        const { data: response } = yield instance('changestatus', data);
-        yield put( actions.statusChangedSuccessful(response.data) );
+        const { data: status } = yield instance('changestatus', data);
+        if ( status.changed ){
+            yield put( actions.statusChangedSuccessful(data) );
+        } else {
+            throw new Error('Please re-enter your account');
+        };
     } catch (e) {
-        const message = e.message || 'Ошибка соединения. \n Попробуйте позже.';
-        yield put( actions.popupMessageSet({
-            message,
-            timeout: 3000
-        })
+        yield put(actions.popupMessageSet(e)
     )};
 };
 

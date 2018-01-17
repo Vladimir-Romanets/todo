@@ -2,18 +2,11 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 const TaskForm = (props) => {
-    const option = [
-        { newTasks: 'new' },
-        { inprogressTasks: 'inprogress' },
-        { completedTasks: 'completed' }
-    ].map( el => {
-        const key = Object.keys(el);
-        return(
-            <option key = { key } value = { key }>
-                { el[key] }
-            </option>
-        )
-    });
+    const option = ['recent', 'inprogress','completed'].map( el => (
+        <option key = { el } value = { el }>
+            { el }
+        </option>
+    ));
 
     return(
         <form onSubmit={ props.handleSubmit }>
@@ -25,13 +18,13 @@ const TaskForm = (props) => {
             <div className='task__row'>
                 <Field
                     component='select'
-                    name='currentState'
+                    name='status'
                     disabled={ !Number(props.form) }
                     onChange={ (e, newState, prevState) => props.fetchStatusChange({
-                        taskID: props.initialValues.id,
-                        user_id: props.user_id,
-                        newState,
-                        prevState
+                        id: props.initialValues.id,
+                        userId: props.userId,
+                        status: newState,
+                        prevStatus: prevState
                     })} >
                         { option }
                 </Field>

@@ -3,7 +3,7 @@ import types from '../const';
 const initialState = {
     auth: null,
     login: null,
-    user_id: null,
+    id: null,
     token: null
 };
 

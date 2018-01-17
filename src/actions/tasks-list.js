@@ -1,7 +1,7 @@
 import types from '../const';
 
-export const fetchGetTaskList = (data) => ({
-    type: types.FETCH_GET_TASKS_LIST,
+export const getTasksList = (data) => ({
+    type: types.GET_TASKS_LIST,
     data
 });
 
@@ -25,10 +25,9 @@ export const fetchSaveTaskData = ( data ) => ({
     data
 });
 
-export const saveTaskDataSuccessful = ( data, status ) => ({
+export const saveTaskDataSuccessful = ( data ) => ({
     type: types.SAVE_TASK_DATA_SUCCESSFUL,
-    data,
-    status
+    data
 });
 
 export const saveNewTaskDataSuccessful = ( data, status ) => ({

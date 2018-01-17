@@ -1,7 +1,7 @@
 import React from 'react';
 import TaskForm from './task_form';
 
-export default function TaskList({list, currentState, user_id, ...rest }){
+export default function TaskList({ list, status, userId, ...rest }){
 
     return (
         <ul className='tasks-list'>
@@ -10,10 +10,10 @@ export default function TaskList({list, currentState, user_id, ...rest }){
                     <li className='task' key={ el.id }>
                         <TaskForm
                             form={ `${el.id}` }
-                            initialValues={{ ...el, currentState }}
-                            user_id={ user_id }
+                            initialValues={{ ...el, status }}
+                            userId={ userId }
                             fetchStatusChange={ rest.fetchStatusChange }
-                            onSubmit={ (data) => rest.fetchSaveTaskData({...data, user_id}) }
+                            onSubmit={ (data) => rest.fetchSaveTaskData({...data, userId}) }
                         />
                     </li>
                 )

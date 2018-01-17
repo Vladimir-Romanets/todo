@@ -6,10 +6,18 @@ body{
     padding: 0;
     margin: 0;
     font-family: Roboto, 'sans-serif';
+    background: #46529d;
 }
 img{
     width: 100%;
     height: auto;
+}
+input,
+textarea{
+    outline: none;
+    box-sizing: border-box;
+    height: auto;
+    font-family: Roboto;
 }
 .container{
     min-height: 100vh;

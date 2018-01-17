@@ -1,9 +1,9 @@
 import types from '../const';
 
 const initialState = {
-    newTasks: [],
-    inprogressTasks: [],
-    completedTasks: []
+    recent: [],
+    inprogress: [],
+    completed: []
 }; 
 
 const reducerTasksList = (state = initialState, action) => {
@@ -14,29 +14,32 @@ const reducerTasksList = (state = initialState, action) => {
                 ...action.tasksList
             }
         case types.STATUS_CHANGED_SUCCESSFUL:{
-            const { taskID, newState, prevState } = action.data;
-            const nextState = {...state };
-            nextState[prevState] = state[prevState].filter( (el) => {
-                if ( Number(el.id) === Number(taskID) ) {
-                    nextState[newState].push(el);
-                    return false;
-                };
-                return true;
-            });
-            return nextState;
+            const { id, status, prevStatus } = action.data;
+            const newEl = state[prevStatus].filter( el => Number(el.id) === Number(id) );
+            return {
+                ...state,
+                [status]: [ ...state[status], ...newEl ],
+                [prevStatus]: state[prevStatus].filter( el => Number(el.id) !== Number(id) )
+            };
         }
         case types.SAVE_TASK_DATA_SUCCESSFUL:{
-            const { data, status } = action;
-            const i = state[status].findIndex( (el) => el.id === data.id );
-            const newState = { ...state };
-            newState[status][i] = data;
+            const { data } = action;
+            const i = state[data.status].findIndex( (el) => el.id === data.id );
+            const newState = {
+                ...state,
+                [data.status]: [ ...state[data.status] ]
+            };
+            newState[data.status][i] = { ...data };
             return newState;
         }
         case types.SAVE_NEW_TASK_DATA_SUCCESSFUL:{
-            const { data, status } = action;
-            const i = state[status].findIndex( (el) => !Number(el.id) );
-            const newState = { ...state };
-            newState[status][i] = data;
+            const { data } = action;
+            const i = state[data.status].findIndex( (el) => isNaN(el.id) );
+            const newState = {
+                ...state,
+                [data.status]: [ ...state[data.status] ]
+            };
+            newState[data.status][i] = { ...data };
             return newState;
         }
         case types.ADD_TASK:{

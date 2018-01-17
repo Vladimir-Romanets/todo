@@ -4,7 +4,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 1px solid #000;
+    background: #fff;
+    border-radius: 7px;
 }
 .auth-form__row{
     padding: 15px 5px;
@@ -25,7 +26,7 @@
 }
 .auth-form__row input{
     padding: 3px 5px;
-    border: 1px solid #454554;
+    border: 1px solid #444;
     width: 210px;
     text-align: left;
     position: relative;
@@ -39,9 +40,15 @@
 }
 .auth-form__row input:focus + label,
 .auth-form__row input:not(:invalid) + label{
-    top: -2px;
+    top: 0px;
     left: 6px;
-    font-size: .8rem;
+    font-size: .7rem;
+}
+.auth-form [type="submit"]{
+    padding: 5px 15px;
+    background: #3fbaee;
+    border: none;
+    color: #fff;
 }
 @-webkit-keyframes move {
     0%   {left: 0px}

@@ -3,22 +3,20 @@ import instance from '../axios';
 import actions from '../../actions';
 
 function* fetchSaveTaskData({ data }) {
+    console.log(data)
     try {
         const { data: response } = yield instance('savetaskdata', data);
-        const status = data.currentState;
+        
+        if ( !response ) throw new Error('Please re-enter your account');
 
         if ( Number(data.id) ){
-            yield put(actions.saveTaskDataSuccessful(response, status));
+            yield put( actions.saveTaskDataSuccessful(data) );
         } else {
-            yield put(actions.saveNewTaskDataSuccessful(response, status));
+            yield put( actions.saveNewTaskDataSuccessful(data) );
         };
         
     } catch (e) {
-        const message = e.message || 'Ошибка соединения. \n Попробуйте позже.';
-        yield put( actions.popupMessageSet({
-            message,
-            timeout: 3000
-        })
+        yield put(actions.popupMessageSet(e)
     )};
 };
 

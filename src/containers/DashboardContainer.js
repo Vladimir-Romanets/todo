@@ -5,7 +5,7 @@ import { DashBoard } from '../components';
 const mapStateToProps = ( state ) => ({
 	auth: state.reducerAuthorization.auth,
 	login: state.reducerAuthorization.login,
-	user_id: state.reducerAuthorization.user_id,
+	userId: state.reducerAuthorization.id,
 	tasksList: state.reducerTasksList
 });
 

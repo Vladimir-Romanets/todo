@@ -1,9 +1,10 @@
 import React from 'react';
 import TaskList from './task_list.js';
+import AddIco from '../ico/addIco';
 import './style.css';
 
 const Tasks = ({ title, ...rest }) => {
-    const addIsActive = !rest.list.some( (el) => el.id === rest.currentState );
+    const addIsActive = !rest.list.some( (el) => el.id === rest.status );
 
     return (
         <div className='dashboard__col'>
@@ -14,11 +15,8 @@ const Tasks = ({ title, ...rest }) => {
 
             <div className='col__add-task'
                 title='Add task'
-                onClick={ addIsActive ? () => rest.addTask(rest.currentState) : null }>
-                <img src='./images/add.svg'
-                    alt='Add task'
-                    className='add-task__ico'
-                />
+                onClick={ addIsActive ? () => rest.addTask(rest.status) : null }>
+                <AddIco parentClass='add-task__ico' />
             </div>
 
             <TaskList {...rest} />

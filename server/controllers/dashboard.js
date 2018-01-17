@@ -1,10 +1,12 @@
 import Router from 'koa-router';
-import { getAllTasks, chgTaskStatus, saveTaskData } from '../model';
+import { tasks } from '../services/tasks';
+import { status } from '../services/task_status';
+import { savetaskdata } from '../services/save_task_data';
 
-async function getTasklist (ctx) {
+async function getTasks (ctx) {
     const data = ctx.request;
     try {
-        ctx.body = await getAllTasks(data.body);
+        ctx.body = await tasks(data.body);
     } catch(e) {
         console.log(e);
     }
@@ -13,16 +15,16 @@ async function getTasklist (ctx) {
 async function saveTask (ctx) {
     const data = ctx.request.body;
     try {
-        ctx.body = await saveTaskData(data);
+        ctx.body = await savetaskdata(data);
     } catch(e) {
         console.log(e);
     }
 };
 
-const changeTaskStatus = async ctx => {
+const changeStatus = async ctx => {
     const data = ctx.request.body;
     try {
-        ctx.body = await chgTaskStatus(data);
+        ctx.body = await status(data);
     } catch(e) {
         console.log(e);
     }
@@ -30,8 +32,8 @@ const changeTaskStatus = async ctx => {
 
 export default function dashboard() {
     const router = new Router();
-    router.post('/tasks', getTasklist);
+    router.post('/tasks', getTasks);
     router.post('/savetaskdata', saveTask);
-    router.post('/changestatus', changeTaskStatus);
+    router.post('/changestatus', changeStatus);
     return router.routes();
 };

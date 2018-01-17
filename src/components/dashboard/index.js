@@ -5,9 +5,9 @@ import './style.css';
 
 export default function DashBoard({ tasksList, ...rest }){
     const {
-        newTasks = [],
-        inprogressTasks = [],
-        completedTasks = []
+        recent = [],
+        inprogress = [],
+        completed = []
     } = tasksList;
 
     return (
@@ -16,28 +16,28 @@ export default function DashBoard({ tasksList, ...rest }){
 
             <div className='dashboard'>
                 <Tasks
-                    list={ newTasks }
+                    list={ recent }
                     title='New tasks'
-                    currentState='newTasks'
-                    user_id= { rest.user_id }
+                    status='recent'
+                    userId= { rest.userId }
                     fetchStatusChange={ rest.fetchStatusChange }
                     fetchSaveTaskData={ rest.fetchSaveTaskData }
                     addTask={ rest.addTask }
                 />
                 <Tasks
-                    list={ inprogressTasks }
+                    list={ inprogress }
                     title='Tasks in the process'
-                    currentState='inprogressTasks'
-                    user_id={ rest.user_id }
+                    status='inprogress'
+                    userId={ rest.userId }
                     fetchStatusChange={ rest.fetchStatusChange }
                     fetchSaveTaskData={ rest.fetchSaveTaskData }
                     addTask={ rest.addTask }
                 />
                 <Tasks
-                    list={ completedTasks }
+                    list={ completed }
                     title='Complited tasks'
-                    currentState='completedTasks'
-                    user_id={ rest.user_id }
+                    status='completed'
+                    userId={ rest.userId }
                     fetchStatusChange={ rest.fetchStatusChange }
                     fetchSaveTaskData={ rest.fetchSaveTaskData }
                     addTask={ rest.addTask }

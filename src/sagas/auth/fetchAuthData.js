@@ -8,14 +8,10 @@ function* fetchAuthData({ data }){
 		yield put( actions.authResponse(response) );
 		if ( response.auth ) {
 			sessionStorage.setItem('token', response.token);
-			yield put( actions.fetchGetTaskList({user_id: response.user_id}) );
+			yield put( actions.getTasksList({userId: response.id}) );
 		}
     } catch (e) {
-        const message = e.message || 'Ошибка соединения. \n Попробуйте позже.';
-        yield put( actions.popupMessageSet({
-            message,
-            timeout: 3000
-        })
+        yield put(actions.popupMessageSet(e)
     )};
 };
 
