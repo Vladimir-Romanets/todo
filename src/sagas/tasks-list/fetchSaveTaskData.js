@@ -3,7 +3,6 @@ import instance from '../axios';
 import actions from '../../actions';
 
 function* fetchSaveTaskData({ data }) {
-    console.log(data)
     try {
         const { data: response } = yield instance('savetaskdata', data);
         
@@ -12,7 +11,7 @@ function* fetchSaveTaskData({ data }) {
         if ( Number(data.id) ){
             yield put( actions.saveTaskDataSuccessful(data) );
         } else {
-            yield put( actions.saveNewTaskDataSuccessful(data) );
+            yield put( actions.saveNewTaskDataSuccessful(response) );
         };
         
     } catch (e) {

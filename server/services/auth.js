@@ -1,22 +1,42 @@
+import passport from 'koa-passport';
+import { Strategy as LocalStrategy } from 'passport-local';
 import models from '../models';
 import { sign } from 'jsonwebtoken';
 import { SECRET } from '../config';
 
 const Users = models.Users;
 
-const authorization = async ({login, password}) => {
-    try {
-        const { dataValues } = await Users.findOne({ where:{ login } });
-        if ( dataValues.password !== password ) throw new Error ('Password incorrect');
-        return {
-            auth: true,
-            login,
-            id: dataValues.id,
-            token: sign(login, SECRET)
-        }; 
-    } catch(err) {
-        return({ auth: false });
-    }
-};
+// passport.serializeUser((user, done) => {
+//     console.log('----------serializeUser--------------')
+//     done(null, user.id)
+// });
 
-export default authorization;
+// passport.deserializeUser(async (id, done) => {
+//     console.log('----------deserializeUser--------------')
+//     done(null, user);
+// });
+
+
+passport.use(
+    new LocalStrategy({
+        usernameField: 'login',
+        passwordField: 'password'
+    },
+        async (username, password, done) => {
+            try {
+                const { dataValues } = await Users.findOne({ where: { login: username } });
+                if (dataValues.password !== password)
+                    throw new Error('Password incorrect');
+                done(null, {
+                    auth: true,
+                    login: username,
+                    id: dataValues.id,
+                    token: sign(username, SECRET)
+                });
+            } catch (err) {
+                done(null, { auth: false }, { message: err.message || 'Login or password incorrect.' });
+            }
+        })
+);
+
+export default passport;

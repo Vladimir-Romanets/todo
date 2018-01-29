@@ -1,21 +1,20 @@
 import Router from 'koa-router';
-import authorization from '../services/auth';
+import passport from 'koa-passport';
 
-async function auth (ctx) {
-    const data = ctx.request.body;
-    try {
-        ctx.body = await authorization(data);
-    } catch(e) {
-        console.log(e);
+const auth = async (ctx) =>
+    passport.authenticate('local', async function (err, user) {
+        if (err) ctx.body = err;
+        if (user) ctx.body = user;
     }
-};
+)(ctx);
 
-const logout = ctx => {
-    const { login } = ctx.request.body;
-    ctx.body = {
-        message: `Пользователь ${login} успешно разлогинился`
-    };
-};
+
+// const logout = ctx => {
+//     const { login } = ctx.request.body;
+//     ctx.body = {
+//         message: `Пользователь ${login} успешно разлогинился`
+//     };
+// };
 
 export default function authorize() {
     const router = new Router();
